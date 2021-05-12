@@ -16,10 +16,35 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+<<<<<<< Updated upstream
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+=======
+    BrdcEphemeris.cpp \
+    RinexOVer3.cpp \
+    RinexObserwacyjny.cpp \
+    WspSatelitow.cpp \
+    calculations.cpp \
+    crx2rnx.cpp \
+    main.cpp \
+    mainwindow.cpp
+INCLUDEPATH += D:\BIBLIOTEKI\armadillo-10.4.0\include
+
+LIBS += \
+    -LC:\armadillo\examples\lib_win64 \
+    -llapack_win64_MT \
+    -lblas_win64_MT
+
+HEADERS += \
+    BrdcEphemeris.h \
+    RinexNavigacyjny.h \
+    RinexOVer3.h \
+    RinexObserwacyjny.h \
+    calculations.h \
+    crx2rnx.h \
+>>>>>>> Stashed changes
     mainwindow.h
 
 FORMS += \
