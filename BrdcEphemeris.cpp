@@ -24,13 +24,15 @@ BrdcEphemeris::BrdcEphemeris(int dd, int mm, int yy)
 //wywołanie bezpośrednio nazwy pliku
 BrdcEphemeris::BrdcEphemeris(QString Name, int h, int m)
 {
-    //NazwaPliku = Name;
+    NazwaPliku = Name;
     hour = h;
     minute = m;
-    NazwaPliku = "E:\\WAT\\MAGISTERKA\\PROGRAM\\IonoFreeCorrection\\DANE\\brdc0020.21n";
-    day = 2;
-    month =1;
-    year = 2021;
+    CzasObliczen = MyTimeClass(h,m,0);
+
+    //NazwaPliku = "E:\\WAT\\MAGISTERKA\\PROGRAM\\IonoFreeCorrection\\DANE\\brdc0020.21n";
+//    day = 2;
+//    month =1;
+//    year = 2021;
 }
 void BrdcEphemeris::znajdzNazwePliku(int d, int m, int y)
 {

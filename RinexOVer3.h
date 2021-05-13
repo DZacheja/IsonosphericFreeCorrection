@@ -4,15 +4,17 @@
 #include <vector>
 #include <QString>
 #include <QStringList>
+#include "MyTimeClass.h"
 class RinexOVer3 final : public RinexObserwacyjny
 {
 private:
     QString testowaNazwaPliku = "WRO_OKROJONY.rnx";
     QString testowaSciezka = R"(E:\WAT\MAGISTERKA\PROGRAM\IonoFreeCorrection\DANE)";
-
+    MyTimeClass PoczatekObserwacjiPliku;
+    MyTimeClass KoniecObserwacjiPliku;
 public:
     RinexOVer3();
-    RinexOVer3(QString,QString);
+    RinexOVer3(QString);
 
     void OtworzPlik() override;
     void WyszukajParametryCzestotliwosi() override;

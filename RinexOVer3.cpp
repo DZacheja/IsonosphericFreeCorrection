@@ -13,10 +13,10 @@ RinexOVer3::RinexOVer3()
 {
 
 }
-RinexOVer3::RinexOVer3(QString ff, QString sat)
+RinexOVer3::RinexOVer3(QString ff)
 {
-    FileName = ff;
-    SateliteTypeAndNumber = sat;
+   FileName = ff;
+   InHeader();
 
 }
 
@@ -49,7 +49,7 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
     MM = 7;
     SS = 30.00;
     //testowa sciezka
-    QString filenn = testowaSciezka + "\\" + testowaNazwaPliku;
+    QString filenn = FileName;
     QFile file(filenn);
 
     //wzorując się na Aaron Boda ..
@@ -191,7 +191,8 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
 }
 
 void RinexOVer3::InHeader(){
-    QString filenn = testowaSciezka + "\\" + testowaNazwaPliku;
+    //QString filenn = testowaSciezka + "\\" + testowaNazwaPliku;
+    QString filenn = FileName;
     QFile file(filenn);
     QChar LSatSign = SateliteTypeAndNumber[0];
     bool FounAll = false;
@@ -223,14 +224,30 @@ void RinexOVer3::InHeader(){
     int isEnd = ll.indexOf("END OF HEADER");
     if(isEnd > 0){break;}
     //tokeny
-    int isXYZ = ll.indexOf("APPROX POSITION XYZ");
-    int isSys = ll.indexOf("SYS / # / OBS TYPES");
+    int isXYZ = ll.indexOf("APPROX POSITION XYZ"); //flaga wspolrzednych odbiornika
+    int isSys = ll.indexOf("SYS / # / OBS TYPES"); //flaga czestotliwosci
+    int isStartTime = ll.indexOf("TIME OF FIRST OBS"); //falaga poczatku obs z pliku
+    int isEndTime = ll.indexOf("TIME OF LAST OBS"); //flaga konca obserwacji z pliku
     if (isXYZ > 0){
         QSlist = ll.split(" ",QString::SkipEmptyParts);
         header.PozX = QSlist[0].toDouble();
         header.PozY = QSlist[1].toDouble();
         header.PozZ = QSlist[2].toDouble();
+        continue;
     }
+
+    if (isStartTime > 0){
+        QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
+        PoczatekObserwacjiPliku = MyTimeClass(QSlist[0].toInt(),QSlist[1].toInt(),QSlist[2].toDouble());
+        continue;
+    }
+
+    if (isEndTime > 0){
+        QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
+        KoniecObserwacjiPliku = MyTimeClass(QSlist[0].toInt(),QSlist[1].toInt(),QSlist[2].toDouble());
+        continue;
+    }
+
 
 /* Jeżeli pierwszy znak linii jest spacją oznacza, że w dalszym ciągu dodajemy
 * częstotliwośći satelity z poprzedniego wiersza. Jeżeli pierwszy znak nie jest

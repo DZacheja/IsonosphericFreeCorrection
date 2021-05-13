@@ -18,6 +18,10 @@ public:
 private slots:
     void on_TestowyGuzik_clicked();
 
+    void on_ButtonReadObsFile_clicked(); //wczytanie pliku obserwacyjnego
+
+    void on_ButtonReadNaviFile_clicked(); //wczytanie pliku navigacyjnego
+
 private:
     Ui::MainWindow *ui;
 };

@@ -11,6 +11,7 @@
 #include <armadillo>
 #include <vector>
 #include <QList>
+#include "MyTimeClass.h"
 
 class BrdcEphemeris final: public RinexNavigacyjny
 {
@@ -54,7 +55,7 @@ private:
      std::map<QString,FileDatas> Satellites;
      long CalculateSecoundsOfMonth(int,int,int);
      void znajdzNazwePliku(int,int,int) override; //funkcja określa nazwę pliku na podtsawie daty
-
+     MyTimeClass CzasObliczen;
 public:
 
     void UzupelnijStrukture(); //znalienie wartosci efemeryd w pliku przypisanym do obiektu

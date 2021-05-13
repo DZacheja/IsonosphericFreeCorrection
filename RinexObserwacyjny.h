@@ -12,6 +12,7 @@
 #include <QString>
 #include <QVector>
 #include <QList>
+#include <QComboBox>
 using namespace  std;
 class RinexObserwacyjny
 {
@@ -25,12 +26,12 @@ protected:
 
     };
     QString FileName; //plik do danych
+
     QString SateliteTypeAndNumber = "G07"; //numer i typ satelity
     Sheader header;
     map<QString,vector<pair<QString,long double>>> Periodicity; //zapisywanie obcenego rekordu
     map<QString,map<QString,long double>> SatellitesPeriodicity; //zapisywanie obcenego rekordu
     vector<QString> PeriodicityOrder; //Kolejnosc czestotliwosci
-
     virtual void InHeader()=0;
 public:
     RinexObserwacyjny();
@@ -40,6 +41,7 @@ public:
     vector<long double> PolozenieOdbiornika();
     QVector<QString> ListaSatelitow();
     map<QString,double> ZnajdzCzestotliwosc(QString,QString, QList<QString>&);
+    void WstawCzestotliwosciDoComboBox(QComboBox*,QComboBox*);
 };
 
 #endif // RINEXOBS_H

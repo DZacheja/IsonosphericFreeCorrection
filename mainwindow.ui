@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1327</width>
-    <height>997</height>
+    <width>1338</width>
+    <height>1034</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,22 +28,47 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
-	background-color: rgb(40, 40, 40);
+	background-image: url(:/img/Resources/Background2.jpg);
 }
 QLabel{
 
 	color: rgb(200,200,0);
 	border-color: rgb(200,0,0);
+	background-color:rgb(124,124,124);
 }
 QPushButton
 {
 	color: rgb(255,255,255);
-	background-color:rgb(30,30,30);
+	background-color:rgb(124,124,124);
 }
 QFrame
 {
 	border-color: rgb(200,0,0);
 
+}
+QTableWidget
+{
+	background-color:rgb(124,124,124);
+}
+
+QCheckBox
+{
+	color: rgb(200,200,0);
+	border-color: rgb(200,0,0);
+	background-color:rgb(124,124,124);
+}
+
+QComboBox
+{
+	color: rgb(200,200,0);
+	border-color: rgb(200,0,0);
+	background-color:rgb(124,124,124);
+}
+QTimeEdit
+{
+	color: rgb(200,200,0);
+	border-color: rgb(200,0,0);
+	background-color:rgb(124,124,124);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -55,12 +80,15 @@ QFrame
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="naglowek">
       <property name="font">
        <font>
         <family>Calibri</family>
         <pointsize>12</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:transparent;</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;IONO - FREE CALCULATOR&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;Autor: inż. Damian Zacheja&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -73,6 +101,18 @@ QFrame
        <layout class="QVBoxLayout" name="Pliki">
         <item>
          <widget class="QLabel" name="label_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>750</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Calibri</family>
@@ -85,12 +125,18 @@ QFrame
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wczytaj RINEX obserwacyjny&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="WczytanieObserwacji" stretch="0,1,2">
+         <layout class="QHBoxLayout" name="WczytanieObserwacji" stretch="0,0,0,0">
           <property name="spacing">
-           <number>7</number>
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
            <widget class="QPushButton" name="ButtonReadObsFile">
@@ -100,11 +146,20 @@ QFrame
               <height>30</height>
              </size>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Calibri</family>
               <pointsize>10</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(10, 0, 58);</string>
             </property>
             <property name="text">
              <string>Wczytaj</string>
@@ -118,6 +173,12 @@ QFrame
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
             </property>
             <property name="font">
              <font>
@@ -136,10 +197,22 @@ QFrame
           <item>
            <widget class="QLabel" name="labelObsFilePath">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>1200</width>
+              <height>16777215</height>
+             </size>
             </property>
             <property name="font">
              <font>
@@ -158,10 +231,35 @@ QFrame
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
         <item>
          <widget class="QLabel" name="label_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>750</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Calibri</family>
@@ -174,12 +272,18 @@ QFrame
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wczytaj RINEX navigacyjny&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="WczytanieNavigacyjnego" stretch="0,0,2">
+         <layout class="QHBoxLayout" name="WczytanieNavigacyjnego" stretch="0,0,0,0">
           <property name="spacing">
-           <number>7</number>
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
            <widget class="QPushButton" name="ButtonReadNaviFile">
@@ -189,11 +293,20 @@ QFrame
               <height>30</height>
              </size>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Calibri</family>
               <pointsize>10</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(10, 0, 58);</string>
             </property>
             <property name="text">
              <string>Wczytaj</string>
@@ -202,6 +315,12 @@ QFrame
           </item>
           <item>
            <widget class="QLabel" name="label_5">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Calibri</family>
@@ -216,10 +335,22 @@ QFrame
           <item>
            <widget class="QLabel" name="labelNviFilePath">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>1200</width>
+              <height>16777215</height>
+             </size>
             </property>
             <property name="font">
              <font>
@@ -234,6 +365,19 @@ QFrame
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;Nic nie wczytano!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -259,6 +403,9 @@ QFrame
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wybierz częstotliwości&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -277,7 +424,7 @@ QFrame
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBoxP1"/>
+               <widget class="QComboBox" name="comboBoxL1"/>
               </item>
              </layout>
             </item>
@@ -297,7 +444,7 @@ QFrame
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_2"/>
+               <widget class="QComboBox" name="comboBoxL2"/>
               </item>
              </layout>
             </item>
@@ -335,6 +482,9 @@ QFrame
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wybierz epoki&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -359,6 +509,10 @@ QFrame
                   <family>Calibri</family>
                   <pointsize>10</pointsize>
                  </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 0, 0);
+background-color: rgb(124, 124, 124);</string>
                 </property>
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::UpDownArrows</enum>
@@ -395,6 +549,10 @@ QFrame
                   <family>Calibri</family>
                   <pointsize>10</pointsize>
                  </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 0, 0);
+background-color: rgb(124, 124, 124);</string>
                 </property>
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::UpDownArrows</enum>
@@ -447,6 +605,12 @@ QFrame
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox">
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <family>Calibri</family>
@@ -460,6 +624,12 @@ QFrame
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_2">
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <family>Calibri</family>
@@ -473,6 +643,12 @@ QFrame
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_3">
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <family>Calibri</family>
@@ -481,6 +657,26 @@ QFrame
               </property>
               <property name="text">
                <string>Poprawka 3</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_Oblicz">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(255, 170, 0);
+color: rgb(0, 85, 0);</string>
+              </property>
+              <property name="text">
+               <string>OBLICZ</string>
               </property>
              </widget>
             </item>
@@ -568,7 +764,7 @@ QFrame
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1327</width>
+     <width>1338</width>
      <height>25</height>
     </rect>
    </property>
