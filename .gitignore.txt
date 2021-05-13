@@ -1,8 +1,6 @@
-<<<<<<< Updated upstream
-=======
+
 #Other files/directories
-**/DANE
->>>>>>> Stashed changes
+**/DANEs
 # C++ objects and libs
 *.slo
 *.lo

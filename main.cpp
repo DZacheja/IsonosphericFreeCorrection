@@ -1,9 +1,5 @@
 #include "mainwindow.h"
-
 #include <QApplication>
-<<<<<<< Updated upstream
-
-=======
 #include "BrdcEphemeris.h"
 #include <QDebug>
 #include <armadillo>
@@ -14,21 +10,18 @@
 #include <windows.h>
 #include <string>
 #include <QString>
-#include <crx2rnx.h>
+//#include <crx2rnx.h>
 #include <QStringList>
 #include "RinexOVer3.h"
 #include "calculations.h"
 #include <QDesktopWidget>
 #include <QRect>
 using namespace  std;
->>>>>>> Stashed changes
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-<<<<<<< Updated upstream
     w.show();
-=======
     QRect ScreenRect = QApplication::desktop()->screenGeometry();
     int height =static_cast<int>(0.9 * ScreenRect.height());
     w.resize(ScreenRect.width(),height);
@@ -52,6 +45,5 @@ int main(int argc, char *argv[])
 //    matrix1(2,2) = 11;
 //    matrix1.print("M:");
 
->>>>>>> Stashed changes
     return a.exec();
 }
