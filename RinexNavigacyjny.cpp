@@ -4,4 +4,7 @@ RinexNavigacyjny::RinexNavigacyjny()
 {}
 RinexNavigacyjny::~RinexNavigacyjny()
 {}
-
+void RinexNavigacyjny::ZmienCzasObliczen(MyTimeClass czas)
+{
+    CzasObliczen = czas;
+}

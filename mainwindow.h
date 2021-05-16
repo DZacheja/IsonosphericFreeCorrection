@@ -16,11 +16,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_TestowyGuzik_clicked();
-
     void on_ButtonReadObsFile_clicked(); //wczytanie pliku obserwacyjnego
 
     void on_ButtonReadNaviFile_clicked(); //wczytanie pliku navigacyjnego
+
+    void on_pushButton_Oblicz_clicked();
+
+    void on_TestButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -2,11 +2,6 @@
 MyTimeClass::MyTimeClass(){}
 MyTimeClass::MyTimeClass(int g,int m,double s)
 {
-    if(g==0 && m==0 & s==0){
-        BlednyCzas blad;
-        blad.informacja = "Aby obliczyć czas dla godziny 0:0:0 należy wczytać poprzedni plik naviigacyjny";
-        throw blad;
-    }
     godz = g;
     min = m;
     sec = s;
@@ -134,4 +129,78 @@ QString MyTimeClass::GetTimeQString()
         if(sec <10){s = "0" + s;}
 
     return g+":"+m+":"+s;
+}
+
+int MyTimeClass::getHour()
+{
+    return godz;
+}
+
+int MyTimeClass::getMinutes()
+{
+    return min;
+}
+double MyTimeClass::getSecounds()
+{
+    return sec;
+}
+double MyTimeClass::getSecoundsOfTheDay()
+{
+    double results;
+    results = (godz * 3600) + (min *60) + sec;
+    return results;
+}
+bool MyTimeClass::operator>(MyTimeClass &obj)
+{
+    double compareSesc;
+    double thisSecs;
+    compareSesc = obj.getSecoundsOfTheDay();
+    thisSecs = this->getSecoundsOfTheDay();
+
+    if (thisSecs > compareSesc){
+        return true;
+    }else{
+        return false;}
+
+}
+
+bool MyTimeClass::operator<(MyTimeClass &obj)
+{
+    double compareSesc;
+    double thisSecs;
+    compareSesc = obj.getSecoundsOfTheDay();
+    thisSecs = this->getSecoundsOfTheDay();
+
+    if (thisSecs < compareSesc){
+        return true;
+    }else{
+        return false;}
+
+}
+bool MyTimeClass::operator>=(MyTimeClass &obj)
+{
+    double compareSesc;
+    double thisSecs;
+    compareSesc = obj.getSecoundsOfTheDay();
+    thisSecs = this->getSecoundsOfTheDay();
+
+    if (thisSecs >= compareSesc){
+        return true;
+    }else{
+        return false;}
+
+}
+
+bool MyTimeClass::operator<=(MyTimeClass &obj)
+{
+    double compareSesc;
+    double thisSecs;
+    compareSesc = obj.getSecoundsOfTheDay();
+    thisSecs = this->getSecoundsOfTheDay();
+
+    if (thisSecs <= compareSesc){
+        return true;
+    }else{
+        return false;}
+
 }

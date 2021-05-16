@@ -22,14 +22,13 @@ BrdcEphemeris::BrdcEphemeris(int dd, int mm, int yy)
     UzupelnijStrukture();
 }
 //wywołanie bezpośrednio nazwy pliku
-BrdcEphemeris::BrdcEphemeris(QString Name, int h, int m)
+BrdcEphemeris::BrdcEphemeris(QString Name,MyTimeClass czas)
 {
     NazwaPliku = Name;
-    hour = h;
-    minute = m;
-    CzasObliczen = MyTimeClass(h,m,0);
+    CzasObliczen = czas;
+    this->UzupelnijStrukture();
 
-    //NazwaPliku = "E:\\WAT\\MAGISTERKA\\PROGRAM\\IonoFreeCorrection\\DANE\\brdc0020.21n";
+//    NazwaPliku = "E:\\WAT\\MAGISTERKA\\PROGRAM\\IonoFreeCorrection\\DANE\\brdc0020.21n";
 //    day = 2;
 //    month =1;
 //    year = 2021;
@@ -90,7 +89,14 @@ void BrdcEphemeris::znajdzNazwePliku(int d, int m, int y)
  * Funkcja znajdująca dane i zapisujące je w strukturze
  */
 void BrdcEphemeris::UzupelnijStrukture(){
-
+    int hour;
+    if(CzasObliczen.getHour()%2 == 0)
+    {
+        hour = CzasObliczen.getHour();
+    }else
+    {
+        hour = CzasObliczen.getHour() -1;
+    }
 
     //Sprawdzenie czy plik się otwierz
     QFile file(NazwaPliku);
@@ -195,18 +201,22 @@ void BrdcEphemeris::UzupelnijStrukture(){
     }
     file.close();
 }}
-void BrdcEphemeris::WyznaczWspolrzedneSatelitow(int hh, int mm, int ss)
+void BrdcEphemeris::WyznaczWspolrzedneSatelitow(int hh, int mm, double ss)
 {
-    //obliczenie wspolrzednych poprzez iteracje na mapie
+    //obliczenie wspolrzednych poprzez iteracje na mapie dla wszystkich satelitów
+    // Obecnie zbedna funckja ale zostawię
     for(auto& elem : Satellites)
     {
         auto& [qstr,struk] = elem;
-                obliczWsp(hh,mm,ss,struk);
+                obliczWsp(hh,mm,ss,&struk);
 
     }
 }
-void BrdcEphemeris::obliczWsp(int hh, int mm, int ss, FileDatas& DanePliku)
+//Obliczanie wspołrzędnych dla wybranej struktury na dany czas;
+void BrdcEphemeris::obliczWsp(int hh, int mm, int ss, FileDatas* DanePliku)
 {
+    int hour,minute;
+    double secounds;
     hour = hh;
     minute = mm;
     secounds = ss;
@@ -223,61 +233,61 @@ void BrdcEphemeris::obliczWsp(int hh, int mm, int ss, FileDatas& DanePliku)
 
     SecoundsOfTheWeek = CalculateSecoundsOfMonth(day,month,year);
     SecoundsOfTheWeek *= 24 * 3600;
-    toc = (DanePliku.hs*3600) + (DanePliku.ms*60) + DanePliku.ss + SecoundsOfTheWeek;
+    toc = (DanePliku->hs*3600) + (DanePliku->ms*60) + DanePliku->ss + SecoundsOfTheWeek;
     tSV = (hour*3600) + (minute*60) + secounds + SecoundsOfTheWeek;
 
     t_tt = tSV - toc;
-    SV = DanePliku.a0 + (DanePliku.a1*t_tt) + (DanePliku.a2*pow(t_tt,2));
+    SV = DanePliku->a0 + (DanePliku->a1*t_tt) + (DanePliku->a2*pow(t_tt,2));
     // ELEMENT DO OBLICZEŃ IONO FREE
-    DanePliku.DtSi = SV;
+    DanePliku->DtSi = SV;
     ////////////////////////////////
     tt = tSV - SV;
-    tk = tt - DanePliku.toe;
+    tk = tt - DanePliku->toe;
     if(tk>302400L) tk -= 604800L;
     if (tk<-302400L) tk +=604800L;
 //calculate medium anomally
-    A = pow(DanePliku.HalfA,2);
+    A = pow(DanePliku->HalfA,2);
     A3 = pow(A,3);
     gma = GM/A3;
     n0 = pow(gma,0.5);
-    n = n0 + DanePliku.del_n;
-    Mk = DanePliku.M0 + (n*tk);
+    n = n0 + DanePliku->del_n;
+    Mk = DanePliku->M0 + (n*tk);
     Ek = Mk;
     do
     {
         Eo= Ek;
-        Ek = Mk + DanePliku.e * sin(Ek);
+        Ek = Mk + DanePliku->e * sin(Ek);
     } while (fabs(Ek - Eo) >= 1.0e-8);
 //Calculation of the eccentric anomaly from Kepler's Law
-       e_1 = cos(Ek) - DanePliku.e;
-       e_2 = 1 - (DanePliku.e * (cos(Ek)));
+       e_1 = cos(Ek) - DanePliku->e;
+       e_2 = 1 - (DanePliku->e * (cos(Ek)));
        cos_vk = (e_1/e_2);
 
-       e_1 = pow((1-pow(DanePliku.e,2)),0.5) * sin(Ek);
-       e_2 = 1 - (DanePliku.e * cos(Ek));
+       e_1 = pow((1-pow(DanePliku->e,2)),0.5) * sin(Ek);
+       e_2 = 1 - (DanePliku->e * cos(Ek));
        sin_vk = (e_1/e_2);
 
        vk = atan2(sin_vk,cos_vk);
 //Calculate width argument
-       Fk = vk + DanePliku.omega;
+       Fk = vk + DanePliku->omega;
 
-       du = (DanePliku.Cuc * (cos(2*Fk))) + (DanePliku.Cus* sin(2*Fk));
-       dr = (DanePliku.Crc * (cos(2*Fk))) + (DanePliku.Crs* sin(2*Fk));
-       di = (DanePliku.Cic * (cos(2*Fk))) + (DanePliku.Cis* sin(2*Fk));
+       du = (DanePliku->Cuc * (cos(2*Fk))) + (DanePliku->Cus* sin(2*Fk));
+       dr = (DanePliku->Crc * (cos(2*Fk))) + (DanePliku->Crs* sin(2*Fk));
+       di = (DanePliku->Cic * (cos(2*Fk))) + (DanePliku->Cis* sin(2*Fk));
        uk = Fk + du;
-       rk = A * (1 - (DanePliku.e*cos(Ek))) + dr;
-       ik = DanePliku.i0 + (DanePliku.Idot * tk) + di;
+       rk = A * (1 - (DanePliku->e*cos(Ek))) + dr;
+       ik = DanePliku->i0 + (DanePliku->Idot * tk) + di;
 
        XPk = rk * cos(uk);
        YPk = rk * sin(uk);
-       Omega = DanePliku.Omega0 + ((DanePliku.OmegaDot - we)*tk) - (we * DanePliku.toe);
+       Omega = DanePliku->Omega0 + ((DanePliku->OmegaDot - we)*tk) - (we * DanePliku->toe);
 
        X = (XPk * cos(Omega)) - ( YPk * sin(Omega) * cos(ik));
        Y = XPk * sin(Omega) + (YPk * cos(Omega) * cos(ik));
        Z = YPk * sin(ik);
-       DanePliku.X = X;
-       DanePliku.Y = Y;
-       DanePliku.Z = Z;
+       DanePliku->X = X;
+       DanePliku->Y = Y;
+       DanePliku->Z = Z;
 
 }
 
@@ -296,6 +306,7 @@ std::vector<long double> BrdcEphemeris::WspolrzedneSatelity(QString Numer, long 
     //Zapisanie wsp do wektora i jego zwrot
     FileDatas *dane;
     dane = &Satellites[Numer];
+    this->obliczWsp(CzasObliczen.getHour(),CzasObliczen.getMinutes(),CzasObliczen.getSecounds(),dane);
     std::vector<long double> Wsp;
 
     if (CxC != 0)

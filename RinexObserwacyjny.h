@@ -13,6 +13,7 @@
 #include <QVector>
 #include <QList>
 #include <QComboBox>
+#include "MyTimeClass.h"
 using namespace  std;
 class RinexObserwacyjny
 {
@@ -33,15 +34,23 @@ protected:
     map<QString,map<QString,long double>> SatellitesPeriodicity; //zapisywanie obcenego rekordu
     vector<QString> PeriodicityOrder; //Kolejnosc czestotliwosci
     virtual void InHeader()=0;
+    MyTimeClass StartCalculations; //zmienne do stworzenia vektora obliczeń
+    MyTimeClass EndCalculations; //zmienna do stworzenia vektora obliczeń
+    MyTimeClass EpokaObliczen; //Epoka obcenych obliczeń
 public:
     RinexObserwacyjny();
+    RinexObserwacyjny(QString);
+    RinexObserwacyjny(QString,MyTimeClass);
     virtual ~RinexObserwacyjny();
     virtual void OtworzPlik() =0;
     virtual void WyszukajParametryCzestotliwosi()=0;
+    virtual vector<MyTimeClass> PrzedzialGodzinowy(MyTimeClass,MyTimeClass)=0;
     vector<long double> PolozenieOdbiornika();
     QVector<QString> ListaSatelitow();
     map<QString,double> ZnajdzCzestotliwosc(QString,QString, QList<QString>&);
     void WstawCzestotliwosciDoComboBox(QComboBox*,QComboBox*);
+
+
 };
 
 #endif // RINEXOBS_H

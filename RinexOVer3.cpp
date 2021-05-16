@@ -16,39 +16,33 @@ RinexOVer3::RinexOVer3()
 RinexOVer3::RinexOVer3(QString ff)
 {
    FileName = ff;
+   //FileName = testowaSciezka;
    InHeader();
 
 }
 
+RinexOVer3::RinexOVer3(QString nazwa, MyTimeClass epoka)
+{
+    FileName = nazwa;
+    EpokaObliczen = epoka;
+    this->InHeader();
+    this->WyszukajParametryCzestotliwosi();
+}
+
 void RinexOVer3::OtworzPlik()
 {
-    vector<pair<QString,long double>> Para = Periodicity["00:00:0.0"];
-    map<QString,long double> OK;
-    long double test;
-    QString cc = "C1C";
-    for (auto& ass : Para)
-    {
-        auto [frs,sec] = ass;
-                if(frs == cc)
-                {
-                    test = sec;
-                    break;
-                }
-    }
-
-
 
 }
 
 void RinexOVer3::WyszukajParametryCzestotliwosi()
 {
-    // tstowy czas
+    // obliczany czas
     int HH, MM;
     double SS;
-    HH = 0;
-    MM = 7;
-    SS = 30.00;
-    //testowa sciezka
+    HH = EpokaObliczen.getHour();
+    MM = EpokaObliczen.getMinutes();
+    SS = EpokaObliczen.getSecounds();
+    //plik
     QString filenn = FileName;
     QFile file(filenn);
 
@@ -144,48 +138,7 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
 
         }
 
-        if (!NewTimeData){continue;}
-
-        int isThatSatelite = linia.indexOf(SateliteTypeAndNumber);
-
-        if(isThatSatelite >= 0)
-        {
-/*
-            int poczatek = 4;
-            double IleIteracji;
-            IleIteracji = (linia.length() - 5)/16;
-
-            for(int i=0; i <= ceil(IleIteracji); i++)
-            {
-                ElementyLinii.push_back(linia.mid(poczatek,16).trimmed());
-                poczatek += 16;
-            }
-*/
-            map<QString,long double> CurrentLine;
-
-            for(int i = 0; i < ElementyLinii.count(); i++)
-            {
-                QString item = PeriodicityOrder[i+2];
-                long double wartosc;
-                if (ElementyLinii[i]=="")
-                {
-                 wartosc = NULL;
-                }
-                else{
-                 wartosc = stold(ElementyLinii[i].toStdString());
-                }
-                CurrentLine.insert(pair<QString,long double>(item,wartosc));
-            }
-            vector<pair<QString,long double>> vect;
-            for (auto& it : CurrentLine)
-            {
-                auto& [str,dbl] = it;
-                vect.push_back(pair<QString,long double>(str,dbl));
-            }
-                        pair<QString,vector<pair<QString,long double>>> para{time,vect};
-            Periodicity.insert(para);
-            NewTimeData = false;
-        }
+        if (!NewTimeData){continue;}     
     }
   }
 }
@@ -201,13 +154,11 @@ void RinexOVer3::InHeader(){
   if (!file.open(QFile::ReadOnly|QFile::Text))
   {
         QMessageBox msgbox;
-        msgbox.setText("Błąd otwarcia pliku!");
+        msgbox.setText("Błąd otwarcia pliku przy przeglądniu nagłówka w pliku Obserwacyjnym!");
         msgbox.exec();
   }
   else
   {
-
-    const QString EndOfHeaderT = "END OF HEADER";
 
     // linia w tablicy wielowymiarowej typu vector - po stworzeniu całej linii dodaje
     // się ja do kontenera jako nowy element.
@@ -284,3 +235,53 @@ void RinexOVer3::InHeader(){
 }//1.else - plik ok
 }//funckja
 
+vector<MyTimeClass> RinexOVer3::PrzedzialGodzinowy(MyTimeClass poczatek, MyTimeClass koniec)
+{
+    StartCalculations = poczatek;
+    EndCalculations = koniec;
+    vector<MyTimeClass> wyniki;
+    //Wczytanie pliku ...
+    QString filenn = FileName;
+    QFile file(filenn);
+    if (!file.open(QFile::ReadOnly|QFile::Text))
+    {
+          QMessageBox msgbox;
+          msgbox.setText("Błąd otwarcia pliku przy przeglądniu przedziału czasu w pliku obserwacyjnym!");
+          msgbox.exec();
+    }
+    else
+    {
+
+        //zapisanie wszystkich czasow do vector'a.
+        QTextStream in(&file);
+        while(!in.atEnd())
+       {
+
+        QString ll = in.readLine();
+        if (ll[0] == ">")
+        {
+          QStringList ListaElementowLinii;
+          ListaElementowLinii = ll.split(" ",QString::SkipEmptyParts);
+          int h = ListaElementowLinii[4].toInt();
+          int m = ListaElementowLinii[5].toInt();
+          int s = ListaElementowLinii[6].toDouble();
+          MyTimeClass CurrentReadTime(h,m,s);
+          //porównanie możliwe dzięki przeładowaniu operatora "<"
+          if(CurrentReadTime >= StartCalculations && CurrentReadTime <= EndCalculations)
+          {
+              wyniki.push_back(CurrentReadTime);
+              continue;
+          }
+          if(CurrentReadTime > EndCalculations)
+          {
+              break;
+          }
+
+        }
+
+       }
+
+     }
+
+    return wyniki;
+}

@@ -14,13 +14,13 @@ void Calculations::oblicz()
      */
 
     bool KontynuowaniePetliObliczen = true;
-    QVector<QString> sat_z_pliku_obs = ObservationFile.ListaSatelitow();
-    QVector<QString> sat_z_pliku_nawi = Brodecast.ListaSatelitow();
+    QVector<QString> sat_z_pliku_obs = ObservationFile->ListaSatelitow();
+    QVector<QString> sat_z_pliku_nawi = NavigationFIle->ListaSatelitow();
     QList<QString> wspolne_satelity;
     wspolne_satelity = ZnajdzWspolneSatelity(sat_z_pliku_nawi, sat_z_pliku_obs);
-    map<QString,double> Czestotliwosci = ObservationFile.ZnajdzCzestotliwosc("C1C","C2W",wspolne_satelity);
+    map<QString,double> Czestotliwosci = ObservationFile->ZnajdzCzestotliwosc("C1C","C2W",wspolne_satelity);
     map<QString,BrdcEphemeris::FileDatas> Satelity;
-    Brodecast.WybraneSatelity(wspolne_satelity,Satelity);
+    NavigationFIle->WybraneSatelity(wspolne_satelity,Satelity);
 
     //MACIERZE WYNIKOWE i wartosci wynikowe//
     arma::mat L;
@@ -32,7 +32,10 @@ void Calculations::oblicz()
 
 
     vector<long double> wspO; //współrzedne z nagłówka
-    wspO = ObservationFile.PolozenieOdbiornika();
+    wspO = ObservationFile->PolozenieOdbiornika();
+    mWyniki.insert({"Pocz_X",wspO[0]});
+    mWyniki.insert({"Pocz_Y",wspO[1]});
+    mWyniki.insert({"Pocz_Z",wspO[2]});
 /*
  * OBLICZENIE wiersza macierzy L dla każdego satelity i zapisanie wyników do mapy
  * Obliczenie wiersza macierzy G dla każdego satelity
@@ -51,7 +54,7 @@ do{
                 long double d0;
                 std::vector<long double> wspS; //wspołrzedne satelitów
                 long double OdczytCxC = Czestotliwosci[qstr];
-                wspS = Brodecast.WspolrzedneSatelity(qstr,OdczytCxC);
+                wspS = NavigationFIle->WspolrzedneSatelity(qstr,OdczytCxC);
                 long double dX2 = pow((wspS[0]-wspO[0]),2);
                 long double dY2 = pow((wspS[1]-wspO[1]),2);
                 long double dZ2 = pow((wspS[2]-wspO[2]),2);
@@ -102,6 +105,9 @@ do{
                 if(abs(dx)<0.001 && abs(dy)<0.001 && abs(dz)<0.001)
                     {
                         KontynuowaniePetliObliczen = false;
+                        mWyniki.insert({"Popr_X",wspO[0]});
+                        mWyniki.insert({"Popr_Y",wspO[1]});
+                        mWyniki.insert({"Popr_Z",wspO[2]});
                     }
                 } while (KontynuowaniePetliObliczen);
 
@@ -117,4 +123,41 @@ QList<QString> Calculations::ZnajdzWspolneSatelity(QVector<QString>& Navi, QVect
         if (CzyJest != -1) {rezults.push_back(Obs[i]); }
     }
     return rezults;
+}
+void Calculations::ZapiszWynikiDoTablicy(QTableWidget *tablica)
+{
+    int wiersz = tablica->rowCount();
+    wiersz--;
+    tablica->setItem(wiersz,1,new QTableWidgetItem(QString::number(mWyniki["Pocz_X"],'f',2)));
+    tablica->setItem(wiersz,2,new QTableWidgetItem(QString::number(mWyniki["Pocz_Y"],'f',2)));
+    tablica->setItem(wiersz,3,new QTableWidgetItem(QString::number(mWyniki["Pocz_Z"],'f',2)));
+    tablica->setItem(wiersz,4,new QTableWidgetItem(QString::number(mWyniki["Popr_X"],'f',2)));
+    tablica->setItem(wiersz,5,new QTableWidgetItem(QString::number(mWyniki["Popr_Y"],'f',2)));
+    tablica->setItem(wiersz,6,new QTableWidgetItem(QString::number(mWyniki["Popr_Z"],'f',2)));
+    QString odleglosc = QString::number(this->ObliczPrzemieszczenie(),'f',2);
+    tablica->setItem(wiersz,7,new QTableWidgetItem(odleglosc));
+}
+double Calculations::ObliczPrzemieszczenie()
+{
+    double wynik;
+    double dx,dy,dz;
+    dx = mWyniki["Pocz_X"] - mWyniki["Popr_X"];
+    dy = mWyniki["Pocz_Y"] - mWyniki["Popr_Y"];
+    dz = mWyniki["Pocz_Z"] - mWyniki["Popr_Z"];
+    wynik = sqrt(pow(dx,2)+pow(dy,2)+pow(dz,2));
+    return wynik;
+}
+
+Calculations::Calculations(QTableWidget *tbl)
+{
+    int size = tbl->rowCount();
+    size--;
+    tbl->setItem(size,1,new QTableWidgetItem("Kolumna 2 row: "+QString::number(size)));
+    tbl->setItem(size,2,new QTableWidgetItem("Kolumna 3 row: "+QString::number(size)));
+    tbl->setItem(size,3,new QTableWidgetItem("Kolumna 4 row: "+QString::number(size)));
+    tbl->setItem(size,4,new QTableWidgetItem("Kolumna 5 row: "+QString::number(size)));
+    tbl->setItem(size,5,new QTableWidgetItem("Kolumna 6 row: "+QString::number(size)));
+    tbl->setItem(size,6,new QTableWidgetItem("Kolumna 7 row: "+QString::number(size)));
+    tbl->setItem(size,7,new QTableWidgetItem("Kolumna 8 row: "+QString::number(size)));
+
 }

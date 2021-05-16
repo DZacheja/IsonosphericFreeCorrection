@@ -3,12 +3,15 @@
  <author>Damian Zacheja</author>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1338</width>
-    <height>1034</height>
+    <width>1366</width>
+    <height>1035</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -503,7 +506,7 @@ QTimeEdit
                </widget>
               </item>
               <item>
-               <widget class="QTimeEdit" name="timeEdit">
+               <widget class="QTimeEdit" name="StartTime">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -543,7 +546,7 @@ background-color: rgb(124, 124, 124);</string>
                </widget>
               </item>
               <item>
-               <widget class="QTimeEdit" name="timeEdit_2">
+               <widget class="QTimeEdit" name="EndTime">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -681,6 +684,13 @@ color: rgb(0, 85, 0);</string>
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="TestButton">
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -716,7 +726,7 @@ color: rgb(0, 85, 0);</string>
            </widget>
           </item>
           <item>
-           <widget class="QTableWidget" name="tableWidget">
+           <widget class="QTableWidget" name="tableWyniki">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -729,6 +739,46 @@ color: rgb(0, 85, 0);</string>
               <height>600</height>
              </size>
             </property>
+            <column>
+             <property name="text">
+              <string>Epoka:</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Odczytany X[m]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Odczytany Y[m]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Odczytany Z[m]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Obliczony X[m]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Obliczony Y[m]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Obliczony Z[m]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Przemieszczenie[m]</string>
+             </property>
+            </column>
            </widget>
           </item>
           <item>
@@ -764,7 +814,7 @@ color: rgb(0, 85, 0);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1338</width>
+     <width>1366</width>
      <height>25</height>
     </rect>
    </property>

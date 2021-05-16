@@ -9,13 +9,14 @@ class RinexOVer3 final : public RinexObserwacyjny
 {
 private:
     QString testowaNazwaPliku = "WRO_OKROJONY.rnx";
-    QString testowaSciezka = R"(E:\WAT\MAGISTERKA\PROGRAM\IonoFreeCorrection\DANE)";
+    QString testowaSciezka = R"(E:\WAT\MAGISTERKA\PROGRAM\IonoFreeCorrection\DANE\WRO_OKROJONY.rnx)";
     MyTimeClass PoczatekObserwacjiPliku;
     MyTimeClass KoniecObserwacjiPliku;
 public:
     RinexOVer3();
     RinexOVer3(QString);
-
+    RinexOVer3(QString,MyTimeClass);
+    vector<MyTimeClass> PrzedzialGodzinowy(MyTimeClass,MyTimeClass) override;
     void OtworzPlik() override;
     void WyszukajParametryCzestotliwosi() override;
     void InHeader() override; //odczytanie informacji z nagłówka i zapisanie koljnosci zapisywanych czestotliwosci

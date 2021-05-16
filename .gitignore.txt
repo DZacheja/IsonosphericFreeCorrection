@@ -1,6 +1,7 @@
 #Other files/directories
-DANE/
-Resources/
+DANE/*
+Resources/*
+*.jpg
 # C++ objects and libs
 *.slo
 *.lo
