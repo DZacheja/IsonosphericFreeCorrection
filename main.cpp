@@ -27,32 +27,32 @@ int main(int argc, char *argv[])
     int height =static_cast<int>(0.9 * ScreenRect.height());
     w.resize(ScreenRect.width(),height);
     w.show();
-/*    MyTimeClass asd;
+    /*    MyTimeClass asd;
     asd = MyTimeClass(0,1,10.12);
     MyTimeClass asd2(0,12,11);
 */  //  bool cowieksze = asd > asd2*/;
-//    QString test = "asdasd";
-//    BrdcEphemeris brodecast(test,0,0);
-//      brodecast.UzupelnijStrukture();
-//      brodecast.WyznaczWspolrzedneSatelitow(0,7,30);
+    //    QString test = "asdasd";
+    //    BrdcEphemeris brodecast(test,0,0);
+    //      brodecast.UzupelnijStrukture();
+    //      brodecast.WyznaczWspolrzedneSatelitow(0,7,30);
 
-//      RinexOVer3 Over3;
-//      Over3.InHeader();
-//      Over3.WyszukajParametryCzestotliwosi();
-//      RinexNavigacyjny *wskNavigacyjny;
-//      RinexObserwacyjny *wskObserwacyjny;
-//      wskNavigacyjny = &brodecast;
-//      wskObserwacyjny = &Over3;
+    //      RinexOVer3 Over3;
+    //      Over3.InHeader();
+    //      Over3.WyszukajParametryCzestotliwosi();
+    //      RinexNavigacyjny *wskNavigacyjny;
+    //      RinexObserwacyjny *wskObserwacyjny;
+    //      wskNavigacyjny = &brodecast;
+    //      wskObserwacyjny = &Over3;
 
-//      Calculations TestoweObliczenia(wskNavigacyjny,wskObserwacyjny);
-//      TestoweObliczenia.oblicz();
-//    arma::mat matrix1;
-//    matrix1.resize(1,2);
-//    matrix1(0,0) = 123;
-//    matrix1.print("M:");
-//    matrix1.resize(3,3);
-//    matrix1(2,2) = 11;
-//    matrix1.print("M:");
+    //      Calculations TestoweObliczenia(wskNavigacyjny,wskObserwacyjny);
+    //      TestoweObliczenia.oblicz();
+    //    arma::mat matrix1;
+    //    matrix1.resize(1,2);
+    //    matrix1(0,0) = 123;
+    //    matrix1.print("M:");
+    //    matrix1.resize(3,3);
+    //    matrix1(2,2) = 11;
+    //    matrix1.print("M:");
 
     return a.exec();
 }

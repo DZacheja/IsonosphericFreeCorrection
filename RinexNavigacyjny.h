@@ -63,14 +63,16 @@ public:
     double Y;
     double Z;
     RinexNavigacyjny(); //konstruktor
-
+    RinexNavigacyjny(int,int,int,QString&);
    // virtual void wczytajDane() =0;
-    virtual void znajdzNazwePliku(int,int,int) =0; //Funkcja wirtualna do szukania nazwy pliku
+    virtual QString znajdzNazwePliku(int,int,int) =0; //Funkcja wirtualna do szukania nazwy pliku
     virtual ~RinexNavigacyjny(); //destruktor
     virtual QVector<QString> ListaSatelitow() =0;
     virtual void WybraneSatelity(QList<QString>,std::map<QString,FileDatas>&)=0;
-    virtual std::vector<long double> WspolrzedneSatelity(QString, long double)=0;
+    virtual std::vector<long double> WspolrzedneSatelity(QString, long double,bool)=0;
     void ZmienCzasObliczen(MyTimeClass);
+    struct Blad {QString info;}; //obsługa błędów
+    QString getNazwaPliku();
 };
 
 #endif // RINEX_H

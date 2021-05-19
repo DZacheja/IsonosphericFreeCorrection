@@ -8,27 +8,32 @@
 #include "RinexObserwacyjny.h"
 #include <QString>
 #include <MyTimeClass.h>
+#include <QLabel>
+
 class Calculations
 {
 private:
-    RinexNavigacyjny *NavigationFIle;
-    RinexObserwacyjny *ObservationFile;
-    QList<QString> ZnajdzWspolneSatelity(QVector<QString>&, QVector<QString>&);
-    QTimeEdit   *StartTime;
-    QTimeEdit   *EndTime;
-    std::vector<MyTimeClass> EpokiObliczen;
-    std::map<QString,double> mWyniki;
+    RinexNavigacyjny *NavigationFIle; //obiekt RINEX navigacyjny
+    RinexObserwacyjny *ObservationFile; //Obiekt RINEX obserwacyjny
+    QList<QString> ZnajdzWspolneSatelity(QVector<QString>&, QVector<QString>&); //satelity wspólne dla obywdu plików
+    std::map<QString,double> mWyniki; //mapa wyników
 
 public:
+    struct BladObliczen
+    {
+     QString informacja;
+    };
+    //Konstruktor
     Calculations(RinexNavigacyjny *nvi, RinexObserwacyjny *obs):
         NavigationFIle(nvi),
         ObservationFile(obs){}
-    Calculations(RinexNavigacyjny&,QVector<QTime>);
-    void oblicz();
+    Calculations();
+    void oblicz(std::map<QString,bool>,vector<QString>);
     void ZnajdzEpokiObliczen(QTime,QTime);
     void ZapiszWynikiDoTablicy(QTableWidget*);
     double ObliczPrzemieszczenie();
-    Calculations(QTableWidget*);
+    void WpiszWspolrzedneOdbiornika(RinexObserwacyjny*, QLabel*,QLabel*,QLabel*); //zapisz wsp do tablicy
+
 };
 
 #endif // CALCULATIONS_H

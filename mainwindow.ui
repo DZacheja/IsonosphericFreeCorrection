@@ -6,12 +6,15 @@
   <property name="windowModality">
    <enum>Qt::NonModal</enum>
   </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>1366</width>
-    <height>1035</height>
+    <height>1050</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,7 +34,9 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
-	background-image: url(:/img/Resources/Background2.jpg);
+	#background-image: url(:/img/Resources/Background2.jpg);
+	
+	background-color: rgb(150, 211, 178);
 }
 QLabel{
 
@@ -72,6 +77,10 @@ QTimeEdit
 	color: rgb(200,200,0);
 	border-color: rgb(200,0,0);
 	background-color:rgb(124,124,124);
+}
+
+QPushButton:disabled {
+    background-color: black;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -94,7 +103,7 @@ QTimeEdit
        <string notr="true">background-color:transparent;</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;IONO - FREE CALCULATOR&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;Autor: inż. Damian Zacheja&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;IONOSPHERE - FREE CALCULATOR&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;Autor: inż. Damian Zacheja&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
@@ -134,7 +143,7 @@ QTimeEdit
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="WczytanieObserwacji" stretch="0,0,0,0">
+         <layout class="QHBoxLayout" name="WczytanieObserwacji" stretch="0,0,0,0,0">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -162,7 +171,8 @@ QTimeEdit
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(10, 0, 58);</string>
+             <string notr="true">background-color: rgb(255, 255, 127);
+color: rgb(0, 0, 0);</string>
             </property>
             <property name="text">
              <string>Wczytaj</string>
@@ -230,7 +240,17 @@ QTimeEdit
              <enum>QFrame::Plain</enum>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;Nic nie wczytano!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0000;&quot;&gt;Nic nie wczytano!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxObsOK">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -281,7 +301,7 @@ QTimeEdit
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="WczytanieNavigacyjnego" stretch="0,0,0,0">
+         <layout class="QHBoxLayout" name="WczytanieNavigacyjnego" stretch="0,0,0,0,0">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -309,7 +329,8 @@ QTimeEdit
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(10, 0, 58);</string>
+             <string notr="true">background-color: rgb(255, 255, 127);
+color: rgb(0, 0, 0);</string>
             </property>
             <property name="text">
              <string>Wczytaj</string>
@@ -365,7 +386,17 @@ QTimeEdit
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;Nic nie wczytano!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0000;&quot;&gt;Nic nie wczytano!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxNaviOK">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -454,17 +485,17 @@ QTimeEdit
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_3">
+           <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Preferred</enum>
+             <enum>QSizePolicy::Maximum</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>30</height>
+              <height>20</height>
              </size>
             </property>
            </spacer>
@@ -580,12 +611,12 @@ background-color: rgb(124, 124, 124);</string>
                <enum>Qt::Vertical</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Preferred</enum>
+               <enum>QSizePolicy::Maximum</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>30</height>
+                <height>20</height>
                </size>
               </property>
              </spacer>
@@ -607,10 +638,10 @@ background-color: rgb(124, 124, 124);</string>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="Corr_IonoFree">
               <property name="maximumSize">
                <size>
-                <width>150</width>
+                <width>280</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -621,15 +652,18 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="text">
-               <string>Poprawka 1</string>
+               <string>eliminacja wpływu jonosfery</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_2">
+             <widget class="QCheckBox" name="Corr_clockTime">
               <property name="maximumSize">
                <size>
-                <width>150</width>
+                <width>280</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -640,15 +674,18 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="text">
-               <string>Poprawka 2</string>
+               <string>korekcja czasu przelotu sygnału</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_3">
+             <widget class="QCheckBox" name="Corr_relativistic">
               <property name="maximumSize">
                <size>
-                <width>150</width>
+                <width>280</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -659,12 +696,18 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="text">
-               <string>Poprawka 3</string>
+               <string>korekcja efektu relatywistycznego</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="pushButton_Oblicz">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="font">
                <font>
                 <family>Calibri</family>
@@ -675,8 +718,16 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 170, 0);
-color: rgb(0, 85, 0);</string>
+               <string notr="true">:endabled{
+background-color: rgb(137, 255, 131);
+color: rgb(0, 85, 0);
+}
+:disabled{
+background-color: rgb(100, 100, 100);
+color: rgb(255, 0, 0);
+}
+
+</string>
               </property>
               <property name="text">
                <string>OBLICZ</string>
@@ -684,14 +735,7 @@ color: rgb(0, 85, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="TestButton">
-              <property name="text">
-               <string>PushButton</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
+             <spacer name="verticalSpacer_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -726,6 +770,96 @@ color: rgb(0, 85, 0);</string>
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="label_19">
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="text">
+             <string>Współrzędne odbiornika z nagłówka pliku obserwacyjnego</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Współrzędna X [m]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Współrzędna Y [m]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Współrzędna Z [m]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
+            <item>
+             <widget class="QLabel" name="labelWspX">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelWspY">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelWspZ">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <widget class="QTableWidget" name="tableWyniki">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -739,52 +873,88 @@ color: rgb(0, 85, 0);</string>
               <height>600</height>
              </size>
             </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::MultiSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>60</number>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>150</number>
+            </attribute>
             <column>
              <property name="text">
               <string>Epoka:</string>
              </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Odczytany X[m]</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Odczytany Y[m]</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Odczytany Z[m]</string>
+             <property name="textAlignment">
+              <set>AlignLeading|AlignVCenter</set>
              </property>
             </column>
             <column>
              <property name="text">
               <string>Obliczony X[m]</string>
              </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
             </column>
             <column>
              <property name="text">
               <string>Obliczony Y[m]</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
              <property name="text">
               <string>Obliczony Z[m]</string>
              </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
             </column>
             <column>
              <property name="text">
               <string>Przemieszczenie[m]</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
              </property>
             </column>
            </widget>
           </item>
           <item>
            <widget class="QProgressBar" name="progressBar">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="value">
-             <number>24</number>
+             <number>27</number>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="textDirection">
+             <enum>QProgressBar::BottomToTop</enum>
+            </property>
+            <property name="format">
+             <string>%v/%m</string>
             </property>
            </widget>
           </item>

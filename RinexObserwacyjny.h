@@ -24,7 +24,9 @@ protected:
       double PozX;
       double PozY;
       double PozZ;
-
+      int dzien;
+      int mies;
+      int rok;
     };
     QString FileName; //plik do danych
 
@@ -47,10 +49,10 @@ public:
     virtual vector<MyTimeClass> PrzedzialGodzinowy(MyTimeClass,MyTimeClass)=0;
     vector<long double> PolozenieOdbiornika();
     QVector<QString> ListaSatelitow();
-    map<QString,double> ZnajdzCzestotliwosc(QString,QString, QList<QString>&);
-    void WstawCzestotliwosciDoComboBox(QComboBox*,QComboBox*);
-
-
+    map<QString,double> ZnajdzCzestotliwosc(QString,QString, QList<QString>&,bool); //Wyszukanie odpowiednich czestot.
+    void WstawCzestotliwosciDoComboBox(QComboBox*,QComboBox*); //uzuepłnienie comboBoxa
+    struct Blad {QString info;}; //obsługa błędów
+    map<QString,int> getFileDate();
 };
 
 #endif // RINEXOBS_H

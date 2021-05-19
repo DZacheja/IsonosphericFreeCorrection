@@ -20,16 +20,16 @@ private:
      void obliczWsp(int,int,int, FileDatas*); //Obliczenie wspolrzednych
      std::map<QString,FileDatas> Satellites;
      long CalculateSecoundsOfMonth(int,int,int);
-     void znajdzNazwePliku(int,int,int) override; //funkcja określa nazwę pliku na podtsawie daty
+     QString znajdzNazwePliku(int,int,int) override; //funkcja określa nazwę pliku na podtsawie daty
      MyTimeClass CzasObliczen;
 public:
 
     void UzupelnijStrukture(); //znalienie wartosci efemeryd w pliku przypisanym do obiektu
-    BrdcEphemeris(int, int, int); //konstruktor obiektu na podstawie daty
+    BrdcEphemeris(int, int, int,QString&); //konstruktor obiektu na podstawie daty
     BrdcEphemeris(QString, MyTimeClass); //konstruktor dla nazwy pliku
     ~BrdcEphemeris() override; //destruktor
     void WyznaczWspolrzedneSatelitow(int,int,double);
-    std::vector<long double> WspolrzedneSatelity(QString, long double) override; //vektor wspolrzednych z wybranego satelity
+    std::vector<long double> WspolrzedneSatelity(QString, long double, bool) override; //vektor wspolrzednych z wybranego satelity
     QVector<QString> ListaSatelitow() override; //Lista sateltów dla wybranej godziny
     void WybraneSatelity(QList<QString>,std::map<QString,FileDatas>&) override; //Stworz mape tylko dla wspolnych satelitow
     friend class Calculations;

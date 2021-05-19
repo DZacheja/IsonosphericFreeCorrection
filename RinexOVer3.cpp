@@ -15,9 +15,9 @@ RinexOVer3::RinexOVer3()
 }
 RinexOVer3::RinexOVer3(QString ff)
 {
-   FileName = ff;
-   //FileName = testowaSciezka;
-   InHeader();
+    FileName = ff;
+    //FileName = testowaSciezka;
+    InHeader();
 
 }
 
@@ -51,14 +51,14 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
 
     bool inHeader = true;
 
-  if (!file.open(QFile::ReadOnly|QFile::Text))
-  {
-        QMessageBox msgbox;
-        msgbox.setText("Błąd otwarcia pliku!");
-        msgbox.exec();
-  }
-  else
-  {
+    if (!file.open(QFile::ReadOnly|QFile::Text))
+    {
+        Blad err;
+        err.info ="Błąd otwiercia pliku podczas wyszukiwania częstotliwości w pliku obserwacyjnym!";
+        throw err;
+    }
+    else
+    {
         QTextStream in(&file);
 
 
@@ -66,81 +66,81 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
         QString time;
         bool NewTimeData = true;
         bool SzukanyCzas = false;
-    //iteracja przez plik
-    while(!in.atEnd())
-    {
-        QString linia = in.readLine();
-        if(inHeader)
+        //iteracja przez plik
+        while(!in.atEnd())
         {
-            int isInHeader = linia.indexOf(EndOfHeaderT);
-
-            if ((isInHeader == -1) && inHeader)
+            QString linia = in.readLine();
+            if(inHeader)
             {
+                int isInHeader = linia.indexOf(EndOfHeaderT);
+
+                if ((isInHeader == -1) && inHeader)
+                {
+                    continue;
+                }
+                else if (isInHeader > 0)
+                {
+                    inHeader = false;
+                    continue;
+                }
+            }
+
+            ElementyLinii.clear();
+            int isNewTime = linia.indexOf(">");
+            if(isNewTime >= 0)
+            {
+                if (SzukanyCzas) {break;}
+                ElementyLinii = linia.split(" ",QString::SkipEmptyParts);
+                int Hours,Minutes;
+                double Secounds;
+                Hours = ElementyLinii[4].toInt();
+                Minutes = ElementyLinii[5].toInt();
+                Secounds = ElementyLinii[6].toDouble();
+                if(Hours == HH && Minutes == MM && Secounds == SS)
+                {
+                    SzukanyCzas = true;
+                }
+                time = ElementyLinii[4] + ":" + ElementyLinii[5] + ":" + ElementyLinii[6].mid(0,3);
+                NewTimeData = true;
                 continue;
             }
-            else if (isInHeader > 0)
+            //Jeżeli znalazło szukaną epokę zapisz wszystkie jej pomiary
+            if(SzukanyCzas)
             {
-                inHeader = false;
-                continue;
-            }
-        }
-
-        ElementyLinii.clear();
-        int isNewTime = linia.indexOf(">");
-        if(isNewTime >= 0)
-        {
-            if (SzukanyCzas) {break;}
-            ElementyLinii = linia.split(" ",QString::SkipEmptyParts);
-            int Hours,Minutes;
-            double Secounds;
-            Hours = ElementyLinii[4].toInt();
-            Minutes = ElementyLinii[5].toInt();
-            Secounds = ElementyLinii[6].toDouble();
-            if(Hours == HH && Minutes == MM && Secounds == SS)
+                QString NumerSatelity = linia.mid(0,3);
+                if(linia[0] != "G"){continue;} //obecnie obliczamy tylko sat. GPS
+                int poczatek = 4;
+                double IleIteracji;
+                IleIteracji = (linia.length() - 5)/16;
+                //Dzielenie liniii na poszczegolne elementy
+                for(int i=0; i <= ceil(IleIteracji); i++)
                 {
-                  SzukanyCzas = true;
+                    ElementyLinii.push_back(linia.mid(poczatek,16).trimmed());
+                    poczatek += 16;
                 }
-            time = ElementyLinii[4] + ":" + ElementyLinii[5] + ":" + ElementyLinii[6].mid(0,3);
-            NewTimeData = true;
-            continue;
-        }
-//Jeżeli znalazło szukaną epokę zapisz wszystkie jej pomiary
-        if(SzukanyCzas)
-        {
-            QString NumerSatelity = linia.mid(0,3);
-            if(linia[0] != "G"){continue;} //obecnie obliczamy tylko sat. GPS
-            int poczatek = 4;
-            double IleIteracji;
-            IleIteracji = (linia.length() - 5)/16;
-            //Dzielenie liniii na poszczegolne elementy
-            for(int i=0; i <= ceil(IleIteracji); i++)
-            {
-                ElementyLinii.push_back(linia.mid(poczatek,16).trimmed());
-                poczatek += 16;
-            }
 
-            map<QString,long double> CurrentLine;
-            for(int i = 0; i < ElementyLinii.count(); i++)
-            {
-                QString item = PeriodicityOrder[i+2];
-                long double wartosc;
-                if (ElementyLinii[i]=="")
+                map<QString,long double> CurrentLine;
+                for(int i = 0; i < ElementyLinii.count(); i++)
                 {
-                 wartosc = NULL;
+                    QString item = PeriodicityOrder[i+2];
+                    long double wartosc;
+                    if (ElementyLinii[i]=="")
+                    {
+                        wartosc = 0;
+                    }
+                    else{
+                        wartosc = stold(ElementyLinii[i].toStdString());
+                    }
+                    CurrentLine.insert({item,wartosc});
                 }
-                else{
-                 wartosc = stold(ElementyLinii[i].toStdString());
-                }
-                CurrentLine.insert({item,wartosc});
+
+                SatellitesPeriodicity.insert({NumerSatelity,CurrentLine});
+
             }
 
-            SatellitesPeriodicity.insert({NumerSatelity,CurrentLine});
-
+            if (!NewTimeData){continue;}
         }
-
-        if (!NewTimeData){continue;}     
     }
-  }
 }
 
 void RinexOVer3::InHeader(){
@@ -149,90 +149,98 @@ void RinexOVer3::InHeader(){
     QFile file(filenn);
     QChar LSatSign = SateliteTypeAndNumber[0];
     bool FounAll = false;
-
+    int PeriodicitySize;
+    bool first = true;
     //wzorując się na Aaron Boda ..
-  if (!file.open(QFile::ReadOnly|QFile::Text))
-  {
-        QMessageBox msgbox;
-        msgbox.setText("Błąd otwarcia pliku przy przeglądniu nagłówka w pliku Obserwacyjnym!");
-        msgbox.exec();
-  }
-  else
-  {
-
-    // linia w tablicy wielowymiarowej typu vector - po stworzeniu całej linii dodaje
-    // się ja do kontenera jako nowy element.
-    std::vector<QString> AddedLine;
-
-    QTextStream in(&file);
-
-    while(!in.atEnd())
-   {
-
-    QString ll = in.readLine();
-    QStringList QSlist;
-
-    int isEnd = ll.indexOf("END OF HEADER");
-    if(isEnd > 0){break;}
-    //tokeny
-    int isXYZ = ll.indexOf("APPROX POSITION XYZ"); //flaga wspolrzednych odbiornika
-    int isSys = ll.indexOf("SYS / # / OBS TYPES"); //flaga czestotliwosci
-    int isStartTime = ll.indexOf("TIME OF FIRST OBS"); //falaga poczatku obs z pliku
-    int isEndTime = ll.indexOf("TIME OF LAST OBS"); //flaga konca obserwacji z pliku
-    if (isXYZ > 0){
-        QSlist = ll.split(" ",QString::SkipEmptyParts);
-        header.PozX = QSlist[0].toDouble();
-        header.PozY = QSlist[1].toDouble();
-        header.PozZ = QSlist[2].toDouble();
-        continue;
+    if (!file.open(QFile::ReadOnly|QFile::Text))
+    {
+        Blad txt;
+        txt.info = "Błąd otwarcia pliku przy przeglądniu nagłówka w pliku Obserwacyjnym!";
+        throw txt;
     }
+    else
+    {
 
-    if (isStartTime > 0){
-        QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
-        PoczatekObserwacjiPliku = MyTimeClass(QSlist[0].toInt(),QSlist[1].toInt(),QSlist[2].toDouble());
-        continue;
-    }
+        // linia w tablicy wielowymiarowej typu vector - po stworzeniu całej linii dodaje
+        // się ja do kontenera jako nowy element.
+        std::vector<QString> AddedLine;
 
-    if (isEndTime > 0){
-        QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
-        KoniecObserwacjiPliku = MyTimeClass(QSlist[0].toInt(),QSlist[1].toInt(),QSlist[2].toDouble());
-        continue;
-    }
+        QTextStream in(&file);
+
+        while(!in.atEnd())
+        {
+
+            QString ll = in.readLine();
+            QStringList QSlist;
+
+            int isEnd = ll.indexOf("END OF HEADER");
+            if(isEnd > 0){break;}
+            //tokeny
+            int isXYZ = ll.indexOf("APPROX POSITION XYZ"); //flaga wspolrzednych odbiornika
+            int isSys = ll.indexOf("SYS / # / OBS TYPES"); //flaga czestotliwosci
+            int isStartTime = ll.indexOf("TIME OF FIRST OBS"); //falaga poczatku obs z pliku
+            int isEndTime = ll.indexOf("TIME OF LAST OBS"); //flaga konca obserwacji z pliku
+            if (isXYZ > 0){
+                QSlist = ll.split(" ",QString::SkipEmptyParts);
+                header.PozX = QSlist[0].toDouble();
+                header.PozY = QSlist[1].toDouble();
+                header.PozZ = QSlist[2].toDouble();
+                continue;
+            }
+
+            if (isStartTime > 0){
+                QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
+                header.rok = QSlist[0].toInt();
+                header.mies = QSlist[1].toInt();
+                header.dzien = QSlist[2].toInt();
+                continue;
+            }
+
+            if (isEndTime > 0){
+                QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
+                KoniecObserwacjiPliku = MyTimeClass(QSlist[0].toInt(),QSlist[1].toInt(),QSlist[2].toDouble());
+                continue;
+            }
 
 
-/* Jeżeli pierwszy znak linii jest spacją oznacza, że w dalszym ciągu dodajemy
+            /* Jeżeli pierwszy znak linii jest spacją oznacza, że w dalszym ciągu dodajemy
 * częstotliwośći satelity z poprzedniego wiersza. Jeżeli pierwszy znak nie jest
 * spacją oznacza, że definiujemy nową listę częstotliwości więc kontener z obecnymi
 * wartościami należy "dołożyć" do kontenera głównego w klasie (PeriodicityOrder)
 * a następnie go wyczyścić w celu przygotowania do nowych danych.
 */
 
-    else if(isSys >0)
-    {
-        QChar SPC = ll[0];
-        if(SPC == LSatSign) {FounAll = true;}
-
-
-            if(!(SPC.isSpace()))
+            else if(isSys >0)
             {
-                if(!(PeriodicityOrder.empty()))
+                if(PeriodicitySize == static_cast<int>(PeriodicityOrder.size())){continue;}
+                QChar SPC = ll[0];
+                if(SPC == LSatSign) {FounAll = true;}
+
+
+                if(!(SPC.isSpace()))
                 {
-                    if(FounAll){break;}
+                    if(!(PeriodicityOrder.empty()))
+                    {
+                        if(FounAll){continue;;}
+                    }
+
+                }
+                ll.remove("SYS / # / OBS TYPES");
+                QSlist = ll.split(" ",QString::SkipEmptyParts); //utworzenie tablicy z linii, z pominieciem spacji
+                //dodanie wszystkich elementow tablicy do kontenera
+                if(first)
+                {
+                    PeriodicitySize = QSlist[1].toInt() + 2;
+                    first = false;
                 }
 
-            }
-
-            ll.remove("SYS / # / OBS TYPES");
-            QSlist = ll.split(" ",QString::SkipEmptyParts); //utworzenie tablicy z linii, z pominieciem spacji
-            //dodanie wszystkich elementow tablicy do kontenera
-
-            for(auto elem : QSlist)
-            {
-                PeriodicityOrder.push_back(elem);
-            }
-}//elseif
-}//while
-}//1.else - plik ok
+                for(auto elem : QSlist)
+                {
+                    PeriodicityOrder.push_back(elem);
+                }
+            }//elseif
+        }//while
+    }//1.else - plik ok
 }//funckja
 
 vector<MyTimeClass> RinexOVer3::PrzedzialGodzinowy(MyTimeClass poczatek, MyTimeClass koniec)
@@ -245,9 +253,9 @@ vector<MyTimeClass> RinexOVer3::PrzedzialGodzinowy(MyTimeClass poczatek, MyTimeC
     QFile file(filenn);
     if (!file.open(QFile::ReadOnly|QFile::Text))
     {
-          QMessageBox msgbox;
-          msgbox.setText("Błąd otwarcia pliku przy przeglądniu przedziału czasu w pliku obserwacyjnym!");
-          msgbox.exec();
+        QMessageBox msgbox;
+        msgbox.setText("Błąd otwarcia pliku przy przeglądniu przedziału czasu w pliku obserwacyjnym!");
+        msgbox.exec();
     }
     else
     {
@@ -255,33 +263,33 @@ vector<MyTimeClass> RinexOVer3::PrzedzialGodzinowy(MyTimeClass poczatek, MyTimeC
         //zapisanie wszystkich czasow do vector'a.
         QTextStream in(&file);
         while(!in.atEnd())
-       {
-
-        QString ll = in.readLine();
-        if (ll[0] == ">")
         {
-          QStringList ListaElementowLinii;
-          ListaElementowLinii = ll.split(" ",QString::SkipEmptyParts);
-          int h = ListaElementowLinii[4].toInt();
-          int m = ListaElementowLinii[5].toInt();
-          int s = ListaElementowLinii[6].toDouble();
-          MyTimeClass CurrentReadTime(h,m,s);
-          //porównanie możliwe dzięki przeładowaniu operatora "<"
-          if(CurrentReadTime >= StartCalculations && CurrentReadTime <= EndCalculations)
-          {
-              wyniki.push_back(CurrentReadTime);
-              continue;
-          }
-          if(CurrentReadTime > EndCalculations)
-          {
-              break;
-          }
+
+            QString ll = in.readLine();
+            if (ll[0] == ">")
+            {
+                QStringList ListaElementowLinii;
+                ListaElementowLinii = ll.split(" ",QString::SkipEmptyParts);
+                int h = ListaElementowLinii[4].toInt();
+                int m = ListaElementowLinii[5].toInt();
+                int s = ListaElementowLinii[6].toDouble();
+                MyTimeClass CurrentReadTime(h,m,s);
+                //porównanie możliwe dzięki przeładowaniu operatora "<"
+                if(CurrentReadTime >= StartCalculations && CurrentReadTime <= EndCalculations)
+                {
+                    wyniki.push_back(CurrentReadTime);
+                    continue;
+                }
+                if(CurrentReadTime > EndCalculations)
+                {
+                    break;
+                }
+
+            }
 
         }
 
-       }
-
-     }
+    }
 
     return wyniki;
 }
