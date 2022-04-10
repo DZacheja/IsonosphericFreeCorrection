@@ -11,15 +11,24 @@
 #include <map>
 #include <vector>
 #include "MyTimeClass.h"
+#include <QList>
+#include <math.h>
+#include <string>
+#include <QFile>
+#include <QMessageBox>
+#include <QTextStream>
+#include <QDebug>
+
 class RinexNavigacyjny
 {
 protected:
     struct FileDatas // struktura w której znajdują się znalezione wartosci
     {
+       MyTimeClass CzasObliczenSatelity;
        long double X;
        long double Y;
        long double Z;
-       int SV;
+       QString SV;
        int hs;
        int ms;
        double ss;
@@ -46,33 +55,49 @@ protected:
        long double omega;
        long double OmegaDot;
        long double Idot;
+       long double TDG;
+       long double dReal;
     };
     QString NazwaPliku; //nazwa pliku
     //Data dla wygenerowania nazwy pliku danego obiektu klasy pochodnej
-    int day;
-    int month;
-    int year;
+    bool znalazloDate;
     MyTimeClass CzasObliczen;
+    long SecoundsOfTheWeek;
+    void obliczWsp(FileDatas*); //Obliczenie wspolrzednych
+    long CalculateSecoundsOfMonth(int,int,int);
+
 public:
 /*
  * Obliczone wsp satelity w zależnosci od wybranej klasy pochodnej
  * dzięki temu że jest to klasa abstrakcyjna, można wysyłać do funkcji dowolną
- * klasę pochodną (BRDC, PRECISE).
+ * klasę pochodną (BRDC, Mixed).
  */
-    double X;
-    double Y;
-    double Z;
+    double brdcIonoPharam[8];
+    std::map<QString,FileDatas> Satellites;
+    struct Blad {QString info;}; //obsługa błędów
     RinexNavigacyjny(); //konstruktor
     RinexNavigacyjny(int,int,int,QString&);
-   // virtual void wczytajDane() =0;
-    virtual QString znajdzNazwePliku(int,int,int) =0; //Funkcja wirtualna do szukania nazwy pliku
-    virtual ~RinexNavigacyjny(); //destruktor
-    virtual QVector<QString> ListaSatelitow() =0;
-    virtual void WybraneSatelity(QList<QString>,std::map<QString,FileDatas>&)=0;
-    virtual std::vector<long double> WspolrzedneSatelity(QString, long double,bool)=0;
-    void ZmienCzasObliczen(MyTimeClass);
-    struct Blad {QString info;}; //obsługa błędów
+    int day;
+    int month;
+    int year;
+    //funkcje z wartościa
+    QVector<QString> ListaSatelitow();
+    std::vector<long double> WspolrzedneSatelity(QString, long double,bool);
+
+    QString dataPliku(QString);
     QString getNazwaPliku();
+    //funckje void
+    void ZmienCzasObliczen(MyTimeClass);
+    void WybraneSatelity(QList<QString>,std::map<QString,FileDatas*>*);
+
+
+
+    //funkcje wirtualne
+    virtual ~RinexNavigacyjny(); //destruktor
+    virtual void OdejmijSekundyZCzasuObliczenDanegoSatelity(QString,long double) = 0;
+    virtual void UzupelnijStrukture()=0;
+    virtual void PoprawStruktureSatelity(FileDatas*,QString)=0;
+    friend class Calculations;
 };
 
 #endif // RINEX_H

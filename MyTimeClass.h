@@ -31,6 +31,7 @@ public:
     void addSecounds(double);
     void addMinutes(int);
     void addHours(int);
+    void subSecounds(double);
     int getHour();
     int getMinutes();
     double getSecounds();

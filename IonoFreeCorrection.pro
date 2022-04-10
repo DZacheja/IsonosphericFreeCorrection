@@ -1,10 +1,10 @@
 QT       += core gui
-
+win32: RC_FILE += IonoFreeCorrection_resource.rc
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++11
 
-QMAKE_CXXFLAGS_RELEASE += 2
+#QMAKE_CXXFLAGS_RELEASE += 2
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -17,23 +17,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    MixedNavigationFile.cpp \
     MyTimeClass.cpp \
-    main.cpp \
     mainwindow.cpp \
     BrdcEphemeris.cpp \
     calculations.cpp \
     RinexNavigacyjny.cpp \
     RinexObserwacyjny.cpp \
-    RinexOVer3.cpp
+    RinexOVer3.cpp \
+    panelinformacyjny.cpp \
+    uwagi.cpp \
+    wynikiposrednie.cpp \
+    main.cpp
 
 HEADERS += \
     BrdcEphemeris.h \
+    MixedNavigationFile.h \
     MyTimeClass.h \
     calculations.h \
     mainwindow.h \
     RinexNavigacyjny.h \
     RinexObserwacyjny.h \
-    RinexOVer3.h
+    RinexOVer3.h \
+    panelinformacyjny.h \
+    uwagi.h \
+    wynikiposrednie.h
 
 INCLUDEPATH += D:\BIBLIOTEKI\armadillo-10.4.0\include
 
@@ -43,7 +51,10 @@ LIBS += \
     -lblas_win64_MT
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    panelinformacyjny.ui \
+    uwagi.ui \
+    wynikiposrednie.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

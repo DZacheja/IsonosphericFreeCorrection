@@ -13,8 +13,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>1050</height>
+    <width>1858</width>
+    <height>1102</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,64 +23,85 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>1000</height>
+   </size>
+  </property>
   <property name="maximumSize">
    <size>
     <width>1920</width>
-    <height>1050</height>
+    <height>1220</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Praca magisterska Damiana Zacheja</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/img/Resources/ikona.ico</normaloff>:/img/Resources/ikona.ico</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow{
-	#background-image: url(:/img/Resources/Background2.jpg);
-	
-	background-color: rgb(150, 211, 178);
-}
-QLabel{
-
-	color: rgb(200,200,0);
-	border-color: rgb(200,0,0);
-	background-color:rgb(124,124,124);
-}
-QPushButton
+   <string notr="true">QMainWindow
 {
-	color: rgb(255,255,255);
-	background-color:rgb(124,124,124);
+	background-image: url(:/img/Resources/19396.jpg);
 }
-QFrame
+QLabel
 {
-	border-color: rgb(200,0,0);
-
+	color: rgb(255, 255, 255);
 }
 QTableWidget
 {
-	background-color:rgb(124,124,124);
+	
+	background-color: rgb(117, 117, 117);
 }
-
-QCheckBox
-{
-	color: rgb(200,200,0);
-	border-color: rgb(200,0,0);
-	background-color:rgb(124,124,124);
+QHeaderView::section {
+    background-color: #646464;
 }
-
 QComboBox
 {
-	color: rgb(200,200,0);
-	border-color: rgb(200,0,0);
-	background-color:rgb(124,124,124);
-}
-QTimeEdit
-{
-	color: rgb(200,200,0);
-	border-color: rgb(200,0,0);
-	background-color:rgb(124,124,124);
+	 background-color: #646464;	
 }
 
-QPushButton:disabled {
-    background-color: black;
+QPushButton
+{
+    background-color: #646464;
+}
+
+QProgressBar:horizontal {
+    border: 4px rgb(255,170,0);
+    background: rgb(47,47,47);
+    height: 15px;
+}
+QProgressBar::chunk:horizontal {
+ border: 2px rgb(,170,0);
+background: rgb(255,170,0);
+text-align: center;
+}
+QCheckBox
+{
+	color: rgb(255, 255, 255);
+
+}
+QCheckBox:disabled {
+	
+	color: rgb(170, 0, 0);
+	background-color: rgb(62, 62, 62);
+}
+
+QPushButton#pushButton_Oblicz::enabled
+{
+background:(0, 170, 0);
+}
+
+
+QPushButton#pushButton_Oblicz::disabled
+{
+	background-color: rgb(170, 0, 0);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -91,26 +112,10 @@ QPushButton:disabled {
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="naglowek">
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;IONOSPHERE - FREE CALCULATOR&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; text-decoration: underline;&quot;&gt;Autor: inż. Damian Zacheja&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_14">
       <item>
-       <layout class="QVBoxLayout" name="Pliki">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QLabel" name="label_2">
           <property name="sizePolicy">
@@ -119,10 +124,16 @@ QPushButton:disabled {
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>750</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>750</width>
-            <height>16777215</height>
+            <height>25</height>
            </size>
           </property>
           <property name="font">
@@ -130,6 +141,9 @@ QPushButton:disabled {
             <family>Calibri</family>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string/>
           </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
@@ -161,7 +175,7 @@ QPushButton:disabled {
             <property name="maximumSize">
              <size>
               <width>50</width>
-              <height>16777215</height>
+              <height>25</height>
              </size>
             </property>
             <property name="font">
@@ -171,8 +185,7 @@ QPushButton:disabled {
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 127);
-color: rgb(0, 0, 0);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Wczytaj</string>
@@ -190,7 +203,7 @@ color: rgb(0, 0, 0);</string>
             <property name="maximumSize">
              <size>
               <width>100</width>
-              <height>16777215</height>
+              <height>25</height>
              </size>
             </property>
             <property name="font">
@@ -224,7 +237,7 @@ color: rgb(0, 0, 0);</string>
             <property name="maximumSize">
              <size>
               <width>1200</width>
-              <height>16777215</height>
+              <height>25</height>
              </size>
             </property>
             <property name="font">
@@ -280,7 +293,7 @@ color: rgb(0, 0, 0);</string>
           <property name="maximumSize">
            <size>
             <width>750</width>
-            <height>16777215</height>
+            <height>25</height>
            </size>
           </property>
           <property name="font">
@@ -288,6 +301,9 @@ color: rgb(0, 0, 0);</string>
             <family>Calibri</family>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string/>
           </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
@@ -319,7 +335,7 @@ color: rgb(0, 0, 0);</string>
             <property name="maximumSize">
              <size>
               <width>50</width>
-              <height>16777215</height>
+              <height>25</height>
              </size>
             </property>
             <property name="font">
@@ -329,8 +345,7 @@ color: rgb(0, 0, 0);</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 127);
-color: rgb(0, 0, 0);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Wczytaj</string>
@@ -342,7 +357,7 @@ color: rgb(0, 0, 0);</string>
             <property name="maximumSize">
              <size>
               <width>100</width>
-              <height>16777215</height>
+              <height>25</height>
              </size>
             </property>
             <property name="font">
@@ -373,7 +388,7 @@ color: rgb(0, 0, 0);</string>
             <property name="maximumSize">
              <size>
               <width>1200</width>
-              <height>16777215</height>
+              <height>25</height>
              </size>
             </property>
             <property name="font">
@@ -418,6 +433,32 @@ color: rgb(0, 0, 0);</string>
        </layout>
       </item>
       <item>
+       <widget class="QLabel" name="label_31">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="Resources.qrc">:/img/Resources/logo.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QVBoxLayout" name="Pliki"/>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="Modul" stretch="0,1">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -432,7 +473,7 @@ color: rgb(0, 0, 0);</string>
                </font>
               </property>
               <property name="frameShape">
-               <enum>QFrame::Box</enum>
+               <enum>QFrame::NoFrame</enum>
               </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wybierz częstotliwości&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -443,62 +484,145 @@ color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="Czestotliowsc_1" stretch="0,1">
+             <layout class="QVBoxLayout" name="verticalLayout_5">
               <item>
-               <widget class="QLabel" name="label_7">
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>L1:</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>GPS</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>Galileo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBoxL1"/>
+               <layout class="QHBoxLayout" name="Czestotliwosc_2" stretch="0,1,0,1">
+                <item>
+                 <widget class="QLabel" name="label_8">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Lx:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBoxL1">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_20">
+                  <property name="text">
+                   <string>Ex:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBoxE1"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="Czestotliowsc_1" stretch="0,1,0,1">
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ly:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBoxL2"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_18">
+                  <property name="text">
+                   <string>Ey:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBoxE2"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Informacje">
+                <property name="text">
+                 <string>Pokaż okno informacjyjne do wyboru częstotliwości</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="Czestotliwosc_2" stretch="0,1">
-              <item>
-               <widget class="QLabel" name="label_8">
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>L2:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comboBoxL2"/>
-              </item>
-             </layout>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3"/>
             </item>
            </layout>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Maximum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item>
            <layout class="QVBoxLayout" name="Epoka">
@@ -514,7 +638,7 @@ color: rgb(0, 0, 0);</string>
                <enum>QFrame::Box</enum>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wybierz epoki&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wybierz przedział epok do obliczeń&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -572,7 +696,7 @@ background-color: rgb(124, 124, 124);</string>
                  </font>
                 </property>
                 <property name="text">
-                 <string>Godzina początku obliczeń:</string>
+                 <string>Godzina końca obliczeń:</string>
                 </property>
                </widget>
               </item>
@@ -606,22 +730,6 @@ background-color: rgb(124, 124, 124);</string>
           <item>
            <layout class="QVBoxLayout" name="Poprawki">
             <item>
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Maximum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
              <widget class="QLabel" name="label_12">
               <property name="font">
                <font>
@@ -633,7 +741,10 @@ background-color: rgb(124, 124, 124);</string>
                <enum>QFrame::Box</enum>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wybierz poprawki jakie należy uwzględnić w obliczeniach:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>Wybierz poprawki jakie chcesz uwzględnić w obliczeniach:</string>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::PlainText</enum>
               </property>
              </widget>
             </item>
@@ -652,7 +763,7 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="text">
-               <string>eliminacja wpływu jonosfery</string>
+               <string>kombinacja iono-free</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -663,7 +774,7 @@ background-color: rgb(124, 124, 124);</string>
              <widget class="QCheckBox" name="Corr_clockTime">
               <property name="maximumSize">
                <size>
-                <width>280</width>
+                <width>300</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -674,7 +785,7 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="text">
-               <string>korekcja czasu przelotu sygnału</string>
+               <string>korekcja uwględniająca obrót planety</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -704,9 +815,104 @@ background-color: rgb(124, 124, 124);</string>
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="Corr_tropo">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>poprawka troposferyczna</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="Corr_elevation">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Nie uwzględniaj niskich satelitów o elewacji mniejszej niż:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_13">
+              <item>
+               <widget class="QLabel" name="wartEle">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QSlider::Enabled{
+	background-color: rgb(255, 170, 0);
+}
+QSlider::Disable{
+}
+background-color: rgb(255, 0, 0);</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                 <string>0°</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="horizontalSlider">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="maximum">
+                 <number>10</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="Corr_stdIono">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>poprawka jonosferyczna (tylko pliki brdc GPS)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_Oblicz">
               <property name="enabled">
                <bool>true</bool>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>25</height>
+               </size>
               </property>
               <property name="font">
                <font>
@@ -718,19 +924,48 @@ background-color: rgb(124, 124, 124);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">:endabled{
-background-color: rgb(137, 255, 131);
-color: rgb(0, 85, 0);
+               <string notr="true">QPushButton:enable
+{
+	background-color: rgb(0, 170, 0);
 }
-:disabled{
-background-color: rgb(100, 100, 100);
-color: rgb(255, 0, 0);
-}
-
-</string>
+QPushButto:Disable
+{
+	color: rgb(170, 0, 0);
+}</string>
               </property>
               <property name="text">
                <string>OBLICZ</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_29">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>Opcje programu:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButtonPosrednie">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Pokazuj wyniki pośrednie po kliknięciu na epokę</string>
               </property>
              </widget>
             </item>
@@ -755,6 +990,12 @@ color: rgb(255, 0, 0);
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="label_13">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Calibri</family>
@@ -762,7 +1003,7 @@ color: rgb(255, 0, 0);
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Wyniki&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -771,11 +1012,25 @@ color: rgb(255, 0, 0);
           </item>
           <item>
            <widget class="QLabel" name="label_19">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Calibri</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
             <property name="text">
-             <string>Współrzędne odbiornika z nagłówka pliku obserwacyjnego</string>
+             <string>Współrzędne odbiornika z nagłówka pliku obserwacyjnego w układzie ICRF</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -786,6 +1041,12 @@ color: rgb(255, 0, 0);
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
              <widget class="QLabel" name="label_16">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="text">
                <string>Współrzędna X [m]</string>
               </property>
@@ -796,6 +1057,12 @@ color: rgb(255, 0, 0);
             </item>
             <item>
              <widget class="QLabel" name="label_15">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="text">
                <string>Współrzędna Y [m]</string>
               </property>
@@ -806,6 +1073,12 @@ color: rgb(255, 0, 0);
             </item>
             <item>
              <widget class="QLabel" name="label_14">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="text">
                <string>Współrzędna Z [m]</string>
               </property>
@@ -820,6 +1093,12 @@ color: rgb(255, 0, 0);
            <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
             <item>
              <widget class="QLabel" name="labelWspX">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="frameShape">
                <enum>QFrame::Box</enum>
               </property>
@@ -833,6 +1112,12 @@ color: rgb(255, 0, 0);
             </item>
             <item>
              <widget class="QLabel" name="labelWspY">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="frameShape">
                <enum>QFrame::Box</enum>
               </property>
@@ -846,6 +1131,12 @@ color: rgb(255, 0, 0);
             </item>
             <item>
              <widget class="QLabel" name="labelWspZ">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="frameShape">
                <enum>QFrame::Box</enum>
               </property>
@@ -854,6 +1145,92 @@ color: rgb(255, 0, 0);
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_23">
+              <property name="text">
+               <string>B[°]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>L[°]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>H[m]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="labelWspB">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelWspL">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelWspH">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
@@ -870,7 +1247,13 @@ color: rgb(255, 0, 0);
             <property name="minimumSize">
              <size>
               <width>800</width>
-              <height>600</height>
+              <height>360</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>400</height>
              </size>
             </property>
             <property name="frameShape">
@@ -886,16 +1269,25 @@ color: rgb(255, 0, 0);
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
             <property name="selectionMode">
-             <enum>QAbstractItemView::MultiSelection</enum>
+             <enum>QAbstractItemView::SingleSelection</enum>
             </property>
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
+            <attribute name="horizontalHeaderCascadingSectionResizes">
+             <bool>true</bool>
+            </attribute>
             <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>60</number>
+             <number>100</number>
             </attribute>
             <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>150</number>
+             <number>200</number>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderMinimumSectionSize">
+             <number>50</number>
             </attribute>
             <column>
              <property name="text">
@@ -937,6 +1329,21 @@ color: rgb(255, 0, 0);
               <set>AlignCenter</set>
              </property>
             </column>
+            <column>
+             <property name="text">
+              <string>B[°]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>L[°]</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>H[m]</string>
+             </property>
+            </column>
            </widget>
           </item>
           <item>
@@ -944,22 +1351,396 @@ color: rgb(255, 0, 0);
             <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="font">
+             <font>
+              <family>Calibri</family>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 0, 0);</string>
+            </property>
             <property name="value">
              <number>27</number>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
             <property name="textDirection">
-             <enum>QProgressBar::BottomToTop</enum>
+             <enum>QProgressBar::TopToBottom</enum>
             </property>
             <property name="format">
-             <string>%v/%m</string>
+             <string>%p%</string>
             </property>
            </widget>
           </item>
           <item>
-           <spacer name="verticalSpacer_2">
+           <widget class="QWidget" name="PodsumowanieWynikow" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>1327</width>
+              <height>260</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>1327</width>
+              <height>200</height>
+             </size>
+            </property>
+            <widget class="QWidget" name="verticalLayoutWidget_2">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>10</y>
+               <width>800</width>
+               <height>221</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <layout class="QVBoxLayout" name="Wyniki">
+              <item>
+               <widget class="QLabel" name="label_27">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                 <string> Średnie wyliczone współrzędne odbiornika w układzie ICRF</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_24">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ICRF Z[m] </string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_26">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ICRF Y[m]</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_25">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ICRF Z[m]</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="QLabel" name="ICRF_X">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="ICRF_Y">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="ICRF_Z">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_28">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                 <string>Średnie współrzędne w układzie WGS84</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <item>
+                 <widget class="QLabel" name="label_34">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>B[°]</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_33">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>L[°]</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_32">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>H[m]</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <item>
+                 <widget class="QLabel" name="WGS_X">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(150, 150, 150);
+color: rgb(170, 0, 0);</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="WGS_Y">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(150, 150, 150);
+color: rgb(170, 0, 0);</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="WGS_Z">
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(150, 150, 150);
+color: rgb(170, 0, 0);</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::Box</enum>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>EXPORT</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -984,13 +1765,15 @@ color: rgb(255, 0, 0);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1366</width>
+     <width>1858</width>
      <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

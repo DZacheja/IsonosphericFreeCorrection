@@ -13,13 +13,12 @@ private:
     MyTimeClass PoczatekObserwacjiPliku;
     MyTimeClass KoniecObserwacjiPliku;
 public:
-    RinexOVer3();
-    RinexOVer3(QString);
+    RinexOVer3(const QString&);
     RinexOVer3(QString,MyTimeClass);
     vector<MyTimeClass> PrzedzialGodzinowy(MyTimeClass,MyTimeClass) override;
     void OtworzPlik() override;
     void WyszukajParametryCzestotliwosi() override;
-    void InHeader() override; //odczytanie informacji z nagłówka i zapisanie koljnosci zapisywanych czestotliwosci
+    void DaneNaglowka() override; //odczytanie informacji z nagłówka i zapisanie koljnosci zapisywanych czestotliwosci
 };
 
 #endif // RINEXOBS3_H

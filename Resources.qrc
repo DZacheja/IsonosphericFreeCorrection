@@ -1,6 +1,11 @@
 <RCC>
     <qresource prefix="/img">
+        <file>Resources/19396.jpg</file>
+        <file>Resources/CzestotliwosciGalileo.JPG</file>
+        <file>Resources/CzestotliwosciGPS.JPG</file>
+        <file>Resources/Kombinacje Iono-free.jpg</file>
         <file>Resources/Background.jpg</file>
-        <file>Resources/Background2.jpg</file>
+        <file>Resources/ikona.ico</file>
+        <file>Resources/logo.png</file>
     </qresource>
 </RCC>

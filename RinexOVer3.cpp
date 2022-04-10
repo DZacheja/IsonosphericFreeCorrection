@@ -9,15 +9,12 @@
 #include <map>
 #include <QDebug>
 
-RinexOVer3::RinexOVer3()
-{
 
-}
-RinexOVer3::RinexOVer3(QString ff)
+RinexOVer3::RinexOVer3(const QString &ff)
 {
     FileName = ff;
     //FileName = testowaSciezka;
-    InHeader();
+    DaneNaglowka();
 
 }
 
@@ -25,7 +22,7 @@ RinexOVer3::RinexOVer3(QString nazwa, MyTimeClass epoka)
 {
     FileName = nazwa;
     EpokaObliczen = epoka;
-    this->InHeader();
+    this->DaneNaglowka();
     this->WyszukajParametryCzestotliwosi();
 }
 
@@ -108,7 +105,7 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
             if(SzukanyCzas)
             {
                 QString NumerSatelity = linia.mid(0,3);
-                if(linia[0] != "G"){continue;} //obecnie obliczamy tylko sat. GPS
+                if(linia[0] != "G" && linia[0] != "E"){continue;} //obecnie obliczamy tylko sat. GPS
                 int poczatek = 4;
                 double IleIteracji;
                 IleIteracji = (linia.length() - 5)/16;
@@ -118,23 +115,31 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
                     ElementyLinii.push_back(linia.mid(poczatek,16).trimmed());
                     poczatek += 16;
                 }
-
+                vector<QString> KolejnosciObs;
+                if(linia[0] == "G")
+                {
+                    KolejnosciObs = FrequencyOrderGPS;
+                }else if(linia[0]=="E")
+                {
+                    KolejnosciObs = FrequencyOrderGalileo;
+                }
+//                map<QString,long double> CurrentLine;
                 map<QString,long double> CurrentLine;
                 for(int i = 0; i < ElementyLinii.count(); i++)
                 {
-                    QString item = PeriodicityOrder[i+2];
+                    QString item = KolejnosciObs[i+2];
                     long double wartosc;
                     if (ElementyLinii[i]=="")
                     {
-                        wartosc = 0;
+                        CurrentLine.insert({item,0});
                     }
                     else{
-                        wartosc = stold(ElementyLinii[i].toStdString());
+                        CurrentLine.insert({item,ElementyLinii[i].toDouble()});
                     }
-                    CurrentLine.insert({item,wartosc});
+//                    CurrentLine.insert({item,wartosc});
                 }
 
-                SatellitesPeriodicity.insert({NumerSatelity,CurrentLine});
+                SatellitesFrequency.insert({NumerSatelity,CurrentLine});
 
             }
 
@@ -143,14 +148,16 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
     }
 }
 
-void RinexOVer3::InHeader(){
+void RinexOVer3::DaneNaglowka(){
     //QString filenn = testowaSciezka + "\\" + testowaNazwaPliku;
     QString filenn = FileName;
     QFile file(filenn);
-    QChar LSatSign = SateliteTypeAndNumber[0];
     bool FounAll = false;
-    int PeriodicitySize;
+    int FrequencySize =0;
     bool first = true;
+    bool satGPS=false;
+
+    vector<QString> *wskNaKolejnosc;
     //wzorując się na Aaron Boda ..
     if (!file.open(QFile::ReadOnly|QFile::Text))
     {
@@ -206,20 +213,34 @@ void RinexOVer3::InHeader(){
             /* Jeżeli pierwszy znak linii jest spacją oznacza, że w dalszym ciągu dodajemy
 * częstotliwośći satelity z poprzedniego wiersza. Jeżeli pierwszy znak nie jest
 * spacją oznacza, że definiujemy nową listę częstotliwości więc kontener z obecnymi
-* wartościami należy "dołożyć" do kontenera głównego w klasie (PeriodicityOrder)
+* wartościami należy "dołożyć" do kontenera głównego w klasie (FrequencyOrder)
 * a następnie go wyczyścić w celu przygotowania do nowych danych.
 */
 
             else if(isSys >0)
             {
-                if(PeriodicitySize == static_cast<int>(PeriodicityOrder.size())){continue;}
-                QChar SPC = ll[0];
-                if(SPC == LSatSign) {FounAll = true;}
 
+                QChar SPC = ll[0];
+                if(SPC == "G") {
+                    satGPS = true;
+                    first = true;
+                    FrequencySize = 100;
+                    wskNaKolejnosc = &FrequencyOrderGPS;
+                    FounAll = true;
+                }
+                else if (SPC == "E")
+                {
+                    satGPS = false;
+                    first = true;
+                    FrequencySize = 100;
+                    wskNaKolejnosc = &FrequencyOrderGalileo;
+                    FounAll = true;
+                }
+                if(FrequencySize == static_cast<int>(wskNaKolejnosc->size())){continue;}
 
                 if(!(SPC.isSpace()))
                 {
-                    if(!(PeriodicityOrder.empty()))
+                    if(!(wskNaKolejnosc->empty()))
                     {
                         if(FounAll){continue;;}
                     }
@@ -230,13 +251,16 @@ void RinexOVer3::InHeader(){
                 //dodanie wszystkich elementow tablicy do kontenera
                 if(first)
                 {
-                    PeriodicitySize = QSlist[1].toInt() + 2;
+                    FrequencySize = QSlist[1].toInt() + 2;
                     first = false;
                 }
 
-                for(auto elem : QSlist)
+                for(auto &elem : QSlist)
                 {
-                    PeriodicityOrder.push_back(elem);
+                    if(satGPS){
+                    FrequencyOrder.push_back(elem);
+                    }
+                    wskNaKolejnosc->push_back(elem);
                 }
             }//elseif
         }//while
@@ -272,7 +296,7 @@ vector<MyTimeClass> RinexOVer3::PrzedzialGodzinowy(MyTimeClass poczatek, MyTimeC
                 ListaElementowLinii = ll.split(" ",QString::SkipEmptyParts);
                 int h = ListaElementowLinii[4].toInt();
                 int m = ListaElementowLinii[5].toInt();
-                int s = ListaElementowLinii[6].toDouble();
+                double s = ListaElementowLinii[6].toDouble();
                 MyTimeClass CurrentReadTime(h,m,s);
                 //porównanie możliwe dzięki przeładowaniu operatora "<"
                 if(CurrentReadTime >= StartCalculations && CurrentReadTime <= EndCalculations)

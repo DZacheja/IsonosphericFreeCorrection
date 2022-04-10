@@ -1,90 +1,15 @@
-#include "BrdcEphemeris.h"
-#include "RinexNavigacyjny.h"
-/*
- * Pusty konstruktor
- */
-BrdcEphemeris::BrdcEphemeris(){}
-BrdcEphemeris::~BrdcEphemeris(){}
-//konstktor: przypisuje zmienne do daty, określa nazwę pliku,
-BrdcEphemeris::BrdcEphemeris(int dd, int mm, int yy, QString &filen)
+#include "MixedNavigationFile.h"
+//konstruktory
+MixedNavigationFIle::MixedNavigationFIle(){}
+MixedNavigationFIle::MixedNavigationFIle(QString fn, MyTimeClass c)
 {
-
-    day = dd;
-    month = mm;
-    year = yy;
-
-    filen = znajdzNazwePliku(day, month, year);
-
-}
-//wywołanie bezpośrednio nazwy pliku
-BrdcEphemeris::BrdcEphemeris(QString Name,MyTimeClass czas)
-{
-    NazwaPliku = Name;
-    CzasObliczen = czas;
-    znalazloDate = false;
-    this->UzupelnijStrukture();
-
+    NazwaPliku = fn;
+    CzasObliczen = c;
+    UzupelnijStrukture();
 }
 
-/*
-/Znalezienie poprawnej nazy pliku
-*/
-QString BrdcEphemeris::znajdzNazwePliku(int d, int m, int y)
+void MixedNavigationFIle::UzupelnijStrukture()
 {
-    QList<int> day_n = {31,28,31,30,31,30,31,31,30,31,30,31}; //the days in months on non leap year
-    QList<int> day_p = {31,29,31,30,31,30,31,31,30,31,30,31}; //the days in months on leap year
-    QStringList items;
-    int days = 0;
-
-    if((y%4==0 && y%100!=0) || y%400==0){
-        for(int i = 0; i < m -2 ; i++){
-
-            int a = day_p[i];
-            days =  days + a;
-        } days = days + d;
-    }
-    else {
-        for(int i = 0; i <= m - 2; i++){
-            int a = day_n[i];
-            days =  days + a;
-        } days = days + d;
-    }
-    QString rk;
-    if(y >= 2000){
-        y = y - 2000;}
-    else{
-        y = y - 1900;
-    }
-    if(y>10){
-        rk = QString::number(y);
-    }else {
-        rk = "0";
-        rk.append(QString::number(y));
-    }
-    QString dat;
-    if (days < 100 && days >=10){
-        dat = "0";
-        dat.append(QString::number(days));
-    }
-    if(days < 10){
-        dat = "00";
-        dat.append(QString::number(days));
-    }
-    if(days>=100){
-        dat = QString::number(days);
-    }
-    QString name = "brdc";
-    name.append(dat);
-    name.append("0.");
-    name.append(rk);
-    name.append("n");
-    return name;
-}
-
-/*
- * Funkcja znajdująca dane i zapisujące je w strukturze
- */
-void BrdcEphemeris::UzupelnijStrukture(){
     Satellites.clear(); //wyczyść strukturę!
 
     int hour;
@@ -95,11 +20,31 @@ void BrdcEphemeris::UzupelnijStrukture(){
     {
         hour = CzasObliczen.getHour() -1;
     }
-
     if (hour > 22)
     {
         hour = 20;
     }
+
+    int SzukanyCzasGalileo[2];
+    int SzukanaGodzinaGalileo;
+    SzukanaGodzinaGalileo = CzasObliczen.getHour();
+
+    int szukaneMinuty = CzasObliczen.getMinutes()/10;
+    szukaneMinuty *= 10;
+    szukaneMinuty += 10;
+    if (szukaneMinuty >=60)
+    {
+        SzukanaGodzinaGalileo++;
+        szukaneMinuty -= 60;
+        if(SzukanaGodzinaGalileo>=24)
+        {
+            SzukanaGodzinaGalileo = 23;
+            szukaneMinuty = 50;
+        }
+    }
+    SzukanyCzasGalileo[0] = SzukanaGodzinaGalileo;
+    SzukanyCzasGalileo[1] = szukaneMinuty;
+
     //Sprawdzenie czy plik się otwierz
     QFile file(NazwaPliku);
     if (!file.open(QFile::ReadOnly|QFile::Text))
@@ -117,6 +62,7 @@ void BrdcEphemeris::UzupelnijStrukture(){
         QTextStream in(&file);
         std::string zamiana;
         QString ObecnySatelita;
+        QString OznSat;
         FileDatas DanePliku; //przechowywane wartosci struktury satelity o danej godzinie
         bool header = true;
         // iteracja przez kolejne linie pliku
@@ -124,57 +70,57 @@ void BrdcEphemeris::UzupelnijStrukture(){
             QString linia_txt = in.readLine();
             //Sprawdzenie nagłówka
             int EndOfHeaderT = linia_txt.indexOf("END OF HEADER");
-            int IONa = linia_txt.indexOf("ION ALPHA");
-            int IONb = linia_txt.indexOf("ION BETA");
-            if (IONa > 0)
-            {
-                linia_txt.replace("D","e"); //zamiana "D" na "e"
-                lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
-                brdcIonoPharam[0] = lista[0].toDouble();
-                brdcIonoPharam[1] = lista[1].toDouble();
-                brdcIonoPharam[2] = lista[2].toDouble();
-                brdcIonoPharam[3] = lista[3].toDouble();
-            }
-            if (IONb > 0)
-            {
-                linia_txt.replace("D","e"); //zamiana "D" na "e"
-                lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
-                brdcIonoPharam[4] = lista[0].toDouble();
-                brdcIonoPharam[5] = lista[1].toDouble();
-                brdcIonoPharam[6] = lista[2].toDouble();
-                brdcIonoPharam[7] = lista[3].toDouble();
-            }
             if (EndOfHeaderT > 0){header = false; continue;}
             if (header){continue;}
             //koniec sprawdzenia
             linia_txt.replace("-", " -"); //naprawa złączonych elementów
-            linia_txt.replace("D ","D"); //usuniecie spacji z "D -"
-            linia_txt.replace("D","e"); //zamiana "D" na "e"
+            linia_txt.replace("D","e"); //zamiana D na e
+            linia_txt.replace("E","e"); //zamiana E na e
+            linia_txt.replace("e ","e"); //usuniecie spacji z "e -"
             lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
             if(lista.count() >= 5){
                 int CurrentHour = lista[4].toInt();
+                int E_h, E_m;
+                E_h = lista[4].toInt();
+                E_m = lista[5].toInt();
+                //sprawdz system satelitarny - dane z GPS i Galileo zapisz
+                ObecnySatelita = lista[0].replace("e","E");
+                OznSat = ObecnySatelita.mid(0,1);
+
                 if (CurrentHour %2 != 0 && CurrentHour != 0 ){CurrentHour++;}
-                //sprawdzenie czy jest kolejna godzina
-                if (CurrentHour == hour + 4){break;}
+
                 //sprawdzenie czy zaczynają sie dane do wybranej godziny
-                if ((CurrentHour - 2) == hour)
+                if (CurrentHour - 2 == hour && (OznSat == "G"))
                 {
                     if(!znalazloDate)
                     {
-                        year = 2000 + lista[1].toInt();
+                        year = lista[1].toInt();
                         month = lista[2].toInt();
                         day = lista[3].toInt();
                         znalazloDate = true;
                     }
                     znalazlo = 1;
                     NumerDoCzytania = 1;
-                }}
+                }else if (OznSat == "E" && E_h == SzukanyCzasGalileo[0] && E_m == SzukanyCzasGalileo[1])
+                {
+                    if(!znalazloDate)
+                    {
+                        year = lista[1].toInt();
+                        month = lista[2].toInt();
+                        day = lista[3].toInt();
+                        znalazloDate = true;
+                    }
+                    znalazlo = 1;
+                    NumerDoCzytania = 1;
+                }
+            }
 
             if (znalazlo ==3){continue;}//pomiń 1 ostatni wiersz
             if(znalazlo == 2)
             {
                 DanePliku.dReal = 0.0;
                 DanePliku.CzasObliczenSatelity = CzasObliczen;
+                DanePliku.SV = ObecnySatelita;
                 std::pair<QString,FileDatas> para{ObecnySatelita,DanePliku};
                 Satellites.insert(para); //zapisz dane do mapy
                 DanePliku = {}; //wyzeruj strukture
@@ -185,10 +131,7 @@ void BrdcEphemeris::UzupelnijStrukture(){
                 switch (NumerDoCzytania) {
                 case 1:
                     ObecnySatelita = lista[0];
-                    if(ObecnySatelita.length() >1){ObecnySatelita = "G" + ObecnySatelita;}
-                    else{ObecnySatelita = "G0" + ObecnySatelita;}
-
-                    DanePliku.SV = ObecnySatelita;
+                    DanePliku.SV = lista[0].toInt();
                     DanePliku.hs = lista[4].toInt();
                     DanePliku.ms = lista[5].toInt();
                     DanePliku.ss = lista[6].toDouble();
@@ -230,21 +173,24 @@ void BrdcEphemeris::UzupelnijStrukture(){
                     NumerDoCzytania =7;
                     break;
                 case 7:
-                    DanePliku.TDG = std::stold(lista[2].toStdString());
+                    if(OznSat == "G"){
+                        DanePliku.TDG = std::stold(lista[2].toStdString());
+                    }else
+                    {
+                        DanePliku.TDG = 0.0;
+                    }
                     znalazlo = 2;
                     break;
                 }
             }
         }
         file.close();
-    }}
+    }
+}
 
-
-/*
- * Funkcja znajdująca dane konkretnego satelity i poprawia je w strukturze
- */
-void BrdcEphemeris::PoprawStruktureSatelity(FileDatas *dane, QString SV){
-
+//Popraw dane konkretnego satelity
+void MixedNavigationFIle::PoprawStruktureSatelity(FileDatas* dane,QString SV)
+{
     MyTimeClass czas = dane->CzasObliczenSatelity;
     int hour;
     if(czas.getHour()%2 == 0)
@@ -259,6 +205,27 @@ void BrdcEphemeris::PoprawStruktureSatelity(FileDatas *dane, QString SV){
     {
         hour = 20;
     }
+
+    int SzukanyCzasGalileo[3];
+    int SzukanaGodzinaGalileo;
+    SzukanaGodzinaGalileo = CzasObliczen.getHour();
+
+    int szukaneMinuty = CzasObliczen.getMinutes()/10;
+    szukaneMinuty *= 10;
+    szukaneMinuty += 10;
+    if (szukaneMinuty >=60)
+    {
+        SzukanaGodzinaGalileo++;
+        szukaneMinuty -= 60;
+        if(SzukanaGodzinaGalileo>=24)
+        {
+            SzukanaGodzinaGalileo = 23;
+            szukaneMinuty = 50;
+        }
+    }
+    SzukanyCzasGalileo[0] = SzukanaGodzinaGalileo;
+    SzukanyCzasGalileo[1] = szukaneMinuty;
+
     //Sprawdzenie czy plik się otwiera
     QFile file(NazwaPliku);
     if (!file.open(QFile::ReadOnly|QFile::Text))
@@ -276,6 +243,7 @@ void BrdcEphemeris::PoprawStruktureSatelity(FileDatas *dane, QString SV){
         QTextStream in(&file);
         std::string zamiana;
         QString ObecnySatelita;
+        QString OznSat;
         FileDatas DanePliku; //przechowywane wartosci struktury satelity o danej godzinie
         bool header = true;
         // iteracja przez kolejne linie pliku
@@ -287,25 +255,42 @@ void BrdcEphemeris::PoprawStruktureSatelity(FileDatas *dane, QString SV){
             if (header){continue;}
             //koniec sprawdzenia
             linia_txt.replace("-", " -"); //naprawa złączonych elementów
-            linia_txt.replace("D ","D"); //usuniecie spacji z "D -"
-            linia_txt.replace("D","e"); //zamiana "D" na "e"
+            linia_txt.replace("D","e"); //zamiana D na e
+            linia_txt.replace("E","e"); //zamiana E na e
+            linia_txt.replace("e ","e"); //usuniecie spacji z "e -"
             lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
             if(lista.count() >= 5){
+                lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
                 int CurrentHour = lista[4].toInt();
+
+                int E_h, E_m;
+                E_h = lista[4].toInt();
+                E_m = lista[5].toInt();
+                //sprawdz system satelitarny - dane z GPS i Galileo zapisz
+                ObecnySatelita = lista[0].replace("e","E");
+                OznSat = ObecnySatelita.mid(0,1);
                 if (CurrentHour %2 != 0 && CurrentHour != 0 ){CurrentHour++;}
+
                 //sprawdzenie czy jest kolejna godzina
-                if (CurrentHour == hour + 4){break;}
+                if (CurrentHour == hour + 6){break;}
+
                 //sprawdzenie czy zaczynają sie dane do wybranej godziny
-                if (CurrentHour - 2 == hour)
+                if (CurrentHour + 2 == hour &&(OznSat == "G"))
                 {
                     ObecnySatelita = lista[0];
-                    if(ObecnySatelita.length() >1){ObecnySatelita = "G" + ObecnySatelita;}
-                    else{ObecnySatelita = "G0" + ObecnySatelita;}
                     if (ObecnySatelita == SV) {
-                    znalazlo = 1;
-                    NumerDoCzytania = 1;
+                        znalazlo = 1;
+                        NumerDoCzytania = 1;
                     }
-                }}
+                }else if(OznSat == "E" && E_h == SzukanyCzasGalileo[0] && E_m == SzukanyCzasGalileo[1]){
+                    ObecnySatelita = lista[0];
+                    if (ObecnySatelita == SV) {
+                        znalazlo = 1;
+                        NumerDoCzytania = 1;
+                    }
+                }
+
+            }
 
             if (znalazlo ==3){break;}//pomiń 1 ostatni wiersz
             if(znalazlo == 2)
@@ -365,42 +350,99 @@ void BrdcEphemeris::PoprawStruktureSatelity(FileDatas *dane, QString SV){
             }
         }
         file.close();
-    }}
+    }
+}
+
 
 //Odjęcie sekund od obecnego czasu
-void BrdcEphemeris::OdejmijSekundyZCzasuObliczenDanegoSatelity(QString SV,long double s)
+void MixedNavigationFIle::OdejmijSekundyZCzasuObliczenDanegoSatelity(QString SV,long double s)
 {
+    QString TypSatelity = SV.mid(0,1);
     FileDatas *dane;
     dane = &Satellites[SV];
     MyTimeClass *Czas;
     Czas = &dane->CzasObliczenSatelity;
-    //sprawdz obcena godzine danych efemeryd
-     int hour;
-     if(Czas->getHour()%2 == 0)
-     {
-      hour = Czas->getHour();
-     }else
-     {
-      hour = Czas->getHour() -1;
-     }
 
-     //odejmij sekundy od obecnego czasu
-     Czas->subSecounds(s);
+    //sprawdz obcena godzine danych efemeryd sie zgadza
+    int hour=0;
+    int min=0;
+    if (TypSatelity == "G"){
+        if(Czas->getHour()%2 == 0)
+        {
+            hour = Czas->getHour();
+        }else
+        {
+            hour = Czas->getHour() -1;
+        }
+        if (hour > 22)
+        {
+            hour = 20;
+        }
+    }else if(TypSatelity == "E")
+    {
+        hour = Czas->getHour();
+        min = Czas->getMinutes()/10;
+        min *= 10;
+        min += 10;
+        if (min>= 60)
+        {
+            hour++;
+            min -=60;
+        }
+        if (hour>=24)
+        {
+            hour = 23;
+            min = 50;
+        }
+    }
 
-     //sprawdz godzine danych efemeryd po korekcie
-     int newHour;
-     if(Czas->getHour()%2 == 0)
-     {
-      newHour = Czas->getHour();
-     }else
-     {
-      newHour = Czas->getHour() -1;
-     }
+    //odejmij sekundy od obecnego czasu
+    Czas->subSecounds(s);
 
-     //jeżeli dane się różnią to wyzukaj strukturę od nowa!
-     if(hour != newHour)
-     {
-         this->PoprawStruktureSatelity(dane,SV);
-     }
+    //sprawdz godzine danych efemeryd po korekcie
+    int newHour=0;
+    int newMinutes=0;
 
+    if(TypSatelity == "G"){
+        if(Czas->getHour()%2 == 0)
+        {
+            newHour = Czas->getHour();
+        }else
+        {
+            newHour = Czas->getHour() -1;
+        }
+        if (newHour >= 22)
+        {
+            newHour = 20;
+        }
+    }else if(TypSatelity =="E")
+    {
+        newHour = Czas->getHour();
+        newMinutes = Czas->getMinutes()/10;
+        newMinutes *= 10;
+        if (newMinutes>= 60)
+        {
+            newHour++;
+            min -=60;
+            if (newHour>=24)
+            {
+                newHour = 23;
+                newMinutes = 50;
+            }
+        }
+
+    }
+    //jeżeli dane się różnią to wyzukaj strukturę od nowa!
+    if (TypSatelity == "G"){
+        if(hour != newHour)
+        {
+            this->PoprawStruktureSatelity(dane,SV);
+        }
+    }else if(TypSatelity == "E")
+    {
+        if(hour != newHour || min != newMinutes)
+        {
+            this->PoprawStruktureSatelity(dane,SV);
+        }
+    }
 }

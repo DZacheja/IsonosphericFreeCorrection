@@ -6,34 +6,23 @@
 #ifndef WSPBRDC_H
 #define WSPBRDC_H
 #include "RinexNavigacyjny.h"
-#include <map>
-#include <QString>
-#include <armadillo>
-#include <vector>
-#include <QList>
-#include "MyTimeClass.h"
 
 class BrdcEphemeris final: public RinexNavigacyjny
 {
 private:
-    long SecoundsOfTheWeek;
-     void obliczWsp(int,int,int, FileDatas*); //Obliczenie wspolrzednych
-     std::map<QString,FileDatas> Satellites;
-     long CalculateSecoundsOfMonth(int,int,int);
-     QString znajdzNazwePliku(int,int,int) override; //funkcja określa nazwę pliku na podtsawie daty
-     MyTimeClass CzasObliczen;
+     QString znajdzNazwePliku(int,int,int); //funkcja określa nazwę pliku na podtsawie daty
+     void UzupelnijStrukture() override; //znalienie wartosci efemeryd w pliku przypisanym do obiektu
 public:
+     //KONSTRUKTORY
+     BrdcEphemeris();
+     BrdcEphemeris(int, int, int,QString&); //konstruktor obiektu na podstawie daty
+     BrdcEphemeris(QString, MyTimeClass); //konstruktor dla nazwy pliku
+     ~BrdcEphemeris() override; //destruktor
 
-    void UzupelnijStrukture(); //znalienie wartosci efemeryd w pliku przypisanym do obiektu
-    BrdcEphemeris(int, int, int,QString&); //konstruktor obiektu na podstawie daty
-    BrdcEphemeris(QString, MyTimeClass); //konstruktor dla nazwy pliku
-    ~BrdcEphemeris() override; //destruktor
-    void WyznaczWspolrzedneSatelitow(int,int,double);
-    std::vector<long double> WspolrzedneSatelity(QString, long double, bool) override; //vektor wspolrzednych z wybranego satelity
-    QVector<QString> ListaSatelitow() override; //Lista sateltów dla wybranej godziny
-    void WybraneSatelity(QList<QString>,std::map<QString,FileDatas>&) override; //Stworz mape tylko dla wspolnych satelitow
+    //FUNKCJE
+    void PoprawStruktureSatelity(FileDatas*,QString) override;
+    void OdejmijSekundyZCzasuObliczenDanegoSatelity(QString ,long double) override;
     friend class Calculations;
-
 };
 
 #endif // WSPBRDC_H

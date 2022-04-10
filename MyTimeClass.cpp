@@ -115,6 +115,19 @@ void MyTimeClass::addSecounds(double s)
     }
 }
 
+void MyTimeClass::subSecounds(double s)
+{
+   double czasWsec;
+   czasWsec = (godz*3600) + (60*min) + sec;
+   czasWsec -= s;
+   godz = czasWsec/3600;
+   min = (czasWsec-(godz*3600))/60;
+   sec = czasWsec - (godz*3600) - (min*60);
+
+}
+
+
+
 //Konwertuje bieżacy czas na QString
 QString MyTimeClass::GetTimeQString()
 {
@@ -125,7 +138,7 @@ QString MyTimeClass::GetTimeQString()
     m=QString::number(min);
     if(min <10){m = "0" + m;}
 
-    s=QString::number(sec);
+    s=QString::number(sec,'f',2);
     if(sec <10){s = "0" + s;}
 
     return g+":"+m+":"+s;

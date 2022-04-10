@@ -32,14 +32,20 @@ protected:
 
     QString SateliteTypeAndNumber = "G07"; //numer i typ satelity
     Sheader header;
-    map<QString,vector<pair<QString,long double>>> Periodicity; //zapisywanie obcenego rekordu
-    map<QString,map<QString,long double>> SatellitesPeriodicity; //zapisywanie obcenego rekordu
-    vector<QString> PeriodicityOrder; //Kolejnosc czestotliwosci
-    virtual void InHeader()=0;
+    map<QString,vector<pair<QString,long double>>> Frequency; //zapisywanie obcenego rekordu
+    map<QString,map<QString, long double>> SatellitesFrequency; //zapisywanie obcenego rekordu
+    vector<QString> FrequencyOrder; //Kolejnosc czestotliwosci
+    vector<QString> FrequencyOrderGPS; //Kolejnosc czestotliwosci
+    vector<QString> FrequencyOrderGalileo; //Kolejnosc czestotliwosci
+    virtual void DaneNaglowka()=0;
     MyTimeClass StartCalculations; //zmienne do stworzenia vektora obliczeń
     MyTimeClass EndCalculations; //zmienna do stworzenia vektora obliczeń
     MyTimeClass EpokaObliczen; //Epoka obcenych obliczeń
+    long double KombinacjaIonoFreeGPS(QString, QString, long double, long double);
+    long double KombinacjaIonoFreeGalileo(QString, QString, long double,long double);
 public:
+
+    struct BladG{QString info;}; //informacja o błędzie
     RinexObserwacyjny();
     RinexObserwacyjny(QString);
     RinexObserwacyjny(QString,MyTimeClass);
@@ -49,10 +55,10 @@ public:
     virtual vector<MyTimeClass> PrzedzialGodzinowy(MyTimeClass,MyTimeClass)=0;
     vector<long double> PolozenieOdbiornika();
     QVector<QString> ListaSatelitow();
-    map<QString,double> ZnajdzCzestotliwosc(QString,QString, QList<QString>&,bool); //Wyszukanie odpowiednich czestot.
-    void WstawCzestotliwosciDoComboBox(QComboBox*,QComboBox*); //uzuepłnienie comboBoxa
+    map<QString,long double> ZnajdzCzestotliwosc(vector<QString>*, QList<QString>&,bool); //Wyszukanie odpowiednich czestot.
+    void WstawCzestotliwosciDoComboBox(QComboBox*,QComboBox*,QComboBox*,QComboBox*); //uzuepłnienie comboBoxa
     struct Blad {QString info;}; //obsługa błędów
-    map<QString,int> getFileDate();
+    QString getFileDate();
 };
 
 #endif // RINEXOBS_H
