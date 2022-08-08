@@ -32,7 +32,7 @@
   <property name="maximumSize">
    <size>
     <width>1920</width>
-    <height>1220</height>
+    <height>1108</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -918,7 +918,6 @@ background-color: rgb(255, 0, 0);</string>
                <font>
                 <family>Calibri</family>
                 <pointsize>12</pointsize>
-                <weight>75</weight>
                 <italic>false</italic>
                 <bold>true</bold>
                </font>
@@ -1022,7 +1021,6 @@ QPushButto:Disable
              <font>
               <family>Calibri</family>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -1246,8 +1244,8 @@ QPushButto:Disable
             </property>
             <property name="minimumSize">
              <size>
-              <width>800</width>
-              <height>360</height>
+              <width>600</width>
+              <height>250</height>
              </size>
             </property>
             <property name="maximumSize">
@@ -1301,32 +1299,20 @@ QPushButto:Disable
              <property name="text">
               <string>Obliczony X[m]</string>
              </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
             </column>
             <column>
              <property name="text">
               <string>Obliczony Y[m]</string>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
              </property>
             </column>
             <column>
              <property name="text">
               <string>Obliczony Z[m]</string>
              </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
             </column>
             <column>
              <property name="text">
               <string>Przemieszczenie[m]</string>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -1355,7 +1341,6 @@ QPushButto:Disable
              <font>
               <family>Calibri</family>
               <pointsize>9</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -1551,19 +1536,6 @@ QPushButto:Disable
                </layout>
               </item>
               <item>
-               <spacer name="verticalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
                <widget class="QLabel" name="label_28">
                 <property name="font">
                  <font>
@@ -1747,7 +1719,7 @@ color: rgb(170, 0, 0);</string>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>40</height>
+              <height>60</height>
              </size>
             </property>
            </spacer>
