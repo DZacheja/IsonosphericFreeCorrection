@@ -52,7 +52,7 @@ void MainWindow::Ustawienia()
             QStringList ElemLinii;
             while(!in.atEnd()){
                 linia = in.readLine();
-                ElemLinii = linia.split("|",QString::SkipEmptyParts);
+                ElemLinii = linia.split("|",Qt::SkipEmptyParts);
                 settings.insert({ElemLinii[0],ElemLinii[1]}); // <- do mapy
                 try {
                     WczytajUstawienie(ElemLinii[0],ElemLinii[1]); // <- wywołaj metodę i przypis ustawienie
@@ -99,7 +99,7 @@ void MainWindow::on_ButtonReadObsFile_clicked()
     Filename = QFileDialog::getOpenFileName(this,
                                             "Wybierz plik RINEX'u obserwacyjnego",ObecnyFolder,
                                             "pliki RNX (*O.rnx);;inne pliki(*.??o)");
-    if(Filename != NULL)
+    if(!Filename.isEmpty())
     {
         WczytajRinexObserwacyjny(Filename);
         ui->labelObsFilePath->setText(Filename);
@@ -145,7 +145,7 @@ void MainWindow::on_ButtonReadNaviFile_clicked()
                                             "Wybierz plik RINEX'u navigacyjnego",ObecnyFolder,
                                             "pliki RNX (*N.rnx);;GPS z CDDIS(brdc*.??n)");
 
-    if(Filename != NULL)
+    if(!Filename.isEmpty())
     {
 
         QString File;
@@ -451,7 +451,7 @@ void MainWindow::ZapiszDoPlikuUstawien(QString key, QString FileName)
             {
                 linia = fs.readLine();
                 //sprawdz spacje w pliku
-                ElemLinii = linia.split("|",QString::SkipEmptyParts);
+                ElemLinii = linia.split("|",Qt::SkipEmptyParts);
 
                 if (ElemLinii[0] == key) //znalazo element w pliku z informacja o nazwie pliku
                 {

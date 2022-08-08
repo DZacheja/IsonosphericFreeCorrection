@@ -198,7 +198,7 @@ QString RinexNavigacyjny::dataPliku(QString f)
             if (EndOfHeaderT > 0){header = false; continue;}
             if (!header)
             {
-              lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+              lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
               int rok = lista[1].toInt();
               if (rok < 1000){rok += 2000;}
               data = QString::number(rok)+"-" +

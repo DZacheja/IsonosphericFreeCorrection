@@ -1,5 +1,6 @@
 #include "BrdcEphemeris.h"
 #include "RinexNavigacyjny.h"
+
 /*
  * Pusty konstruktor
  */
@@ -129,7 +130,7 @@ void BrdcEphemeris::UzupelnijStrukture(){
             if (IONa > 0)
             {
                 linia_txt.replace("D","e"); //zamiana "D" na "e"
-                lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+                lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
                 brdcIonoPharam[0] = lista[0].toDouble();
                 brdcIonoPharam[1] = lista[1].toDouble();
                 brdcIonoPharam[2] = lista[2].toDouble();
@@ -138,7 +139,7 @@ void BrdcEphemeris::UzupelnijStrukture(){
             if (IONb > 0)
             {
                 linia_txt.replace("D","e"); //zamiana "D" na "e"
-                lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+                lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
                 brdcIonoPharam[4] = lista[0].toDouble();
                 brdcIonoPharam[5] = lista[1].toDouble();
                 brdcIonoPharam[6] = lista[2].toDouble();
@@ -150,7 +151,7 @@ void BrdcEphemeris::UzupelnijStrukture(){
             linia_txt.replace("-", " -"); //naprawa złączonych elementów
             linia_txt.replace("D ","D"); //usuniecie spacji z "D -"
             linia_txt.replace("D","e"); //zamiana "D" na "e"
-            lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+            lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
             if(lista.count() >= 5){
                 int CurrentHour = lista[4].toInt();
                 if (CurrentHour %2 != 0 && CurrentHour != 0 ){CurrentHour++;}
@@ -289,7 +290,7 @@ void BrdcEphemeris::PoprawStruktureSatelity(FileDatas *dane, QString SV){
             linia_txt.replace("-", " -"); //naprawa złączonych elementów
             linia_txt.replace("D ","D"); //usuniecie spacji z "D -"
             linia_txt.replace("D","e"); //zamiana "D" na "e"
-            lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+            lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
             if(lista.count() >= 5){
                 int CurrentHour = lista[4].toInt();
                 if (CurrentHour %2 != 0 && CurrentHour != 0 ){CurrentHour++;}

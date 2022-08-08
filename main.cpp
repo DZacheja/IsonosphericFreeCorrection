@@ -2,7 +2,7 @@
 #include <QApplication>
 #include <windows.h>
 #include <QString>
-#include <QDesktopWidget>
+#include <QWidget>
 #include <QRect>
 #include "MyTimeClass.h"
 #include "MixedNavigationFile.h"

@@ -87,7 +87,7 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
             if(isNewTime >= 0)
             {
                 if (SzukanyCzas) {break;}
-                ElementyLinii = linia.split(" ",QString::SkipEmptyParts);
+                ElementyLinii = linia.split(" ",Qt::SkipEmptyParts);
                 int Hours,Minutes;
                 double Secounds;
                 Hours = ElementyLinii[4].toInt();
@@ -105,7 +105,7 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
             if(SzukanyCzas)
             {
                 QString NumerSatelity = linia.mid(0,3);
-                if(linia[0] != "G" && linia[0] != "E"){continue;} //obecnie obliczamy tylko sat. GPS
+                if(linia[0] != 'G' && linia[0] != 'E'){continue;} //obecnie obliczamy tylko sat. GPS
                 int poczatek = 4;
                 double IleIteracji;
                 IleIteracji = (linia.length() - 5)/16;
@@ -116,10 +116,10 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
                     poczatek += 16;
                 }
                 vector<QString> KolejnosciObs;
-                if(linia[0] == "G")
+                if(linia[0] == 'G')
                 {
                     KolejnosciObs = FrequencyOrderGPS;
-                }else if(linia[0]=="E")
+                }else if(linia[0]== 'E')
                 {
                     KolejnosciObs = FrequencyOrderGalileo;
                 }
@@ -128,7 +128,6 @@ void RinexOVer3::WyszukajParametryCzestotliwosi()
                 for(int i = 0; i < ElementyLinii.count(); i++)
                 {
                     QString item = KolejnosciObs[i+2];
-                    long double wartosc;
                     if (ElementyLinii[i]=="")
                     {
                         CurrentLine.insert({item,0});
@@ -188,7 +187,7 @@ void RinexOVer3::DaneNaglowka(){
             int isStartTime = ll.indexOf("TIME OF FIRST OBS"); //falaga poczatku obs z pliku
             int isEndTime = ll.indexOf("TIME OF LAST OBS"); //flaga konca obserwacji z pliku
             if (isXYZ > 0){
-                QSlist = ll.split(" ",QString::SkipEmptyParts);
+                QSlist = ll.split(" ",Qt::SkipEmptyParts);
                 header.PozX = QSlist[0].toDouble();
                 header.PozY = QSlist[1].toDouble();
                 header.PozZ = QSlist[2].toDouble();
@@ -196,7 +195,7 @@ void RinexOVer3::DaneNaglowka(){
             }
 
             if (isStartTime > 0){
-                QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
+                QSlist = QSlist = ll.split(" ",Qt::SkipEmptyParts);
                 header.rok = QSlist[0].toInt();
                 header.mies = QSlist[1].toInt();
                 header.dzien = QSlist[2].toInt();
@@ -204,7 +203,7 @@ void RinexOVer3::DaneNaglowka(){
             }
 
             if (isEndTime > 0){
-                QSlist = QSlist = ll.split(" ",QString::SkipEmptyParts);
+                QSlist = QSlist = ll.split(" ",Qt::SkipEmptyParts);
                 KoniecObserwacjiPliku = MyTimeClass(QSlist[0].toInt(),QSlist[1].toInt(),QSlist[2].toDouble());
                 continue;
             }
@@ -221,14 +220,14 @@ void RinexOVer3::DaneNaglowka(){
             {
 
                 QChar SPC = ll[0];
-                if(SPC == "G") {
+                if(SPC == 'G') {
                     satGPS = true;
                     first = true;
                     FrequencySize = 100;
                     wskNaKolejnosc = &FrequencyOrderGPS;
                     FounAll = true;
                 }
-                else if (SPC == "E")
+                else if (SPC == 'E')
                 {
                     satGPS = false;
                     first = true;
@@ -247,7 +246,7 @@ void RinexOVer3::DaneNaglowka(){
 
                 }
                 ll.remove("SYS / # / OBS TYPES");
-                QSlist = ll.split(" ",QString::SkipEmptyParts); //utworzenie tablicy z linii, z pominieciem spacji
+                QSlist = ll.split(" ",Qt::SkipEmptyParts); //utworzenie tablicy z linii, z pominieciem spacji
                 //dodanie wszystkich elementow tablicy do kontenera
                 if(first)
                 {
@@ -290,10 +289,10 @@ vector<MyTimeClass> RinexOVer3::PrzedzialGodzinowy(MyTimeClass poczatek, MyTimeC
         {
 
             QString ll = in.readLine();
-            if (ll[0] == ">")
+            if (ll[0] == '>')
             {
                 QStringList ListaElementowLinii;
-                ListaElementowLinii = ll.split(" ",QString::SkipEmptyParts);
+                ListaElementowLinii = ll.split(" ",Qt::SkipEmptyParts);
                 int h = ListaElementowLinii[4].toInt();
                 int m = ListaElementowLinii[5].toInt();
                 double s = ListaElementowLinii[6].toDouble();

@@ -77,7 +77,8 @@ void MixedNavigationFIle::UzupelnijStrukture()
             linia_txt.replace("D","e"); //zamiana D na e
             linia_txt.replace("E","e"); //zamiana E na e
             linia_txt.replace("e ","e"); //usuniecie spacji z "e -"
-            lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+
+            lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
             if(lista.count() >= 5){
                 int CurrentHour = lista[4].toInt();
                 int E_h, E_m;
@@ -131,7 +132,7 @@ void MixedNavigationFIle::UzupelnijStrukture()
                 switch (NumerDoCzytania) {
                 case 1:
                     ObecnySatelita = lista[0];
-                    DanePliku.SV = lista[0].toInt();
+                    DanePliku.SV = lista[0];
                     DanePliku.hs = lista[4].toInt();
                     DanePliku.ms = lista[5].toInt();
                     DanePliku.ss = lista[6].toDouble();
@@ -258,9 +259,9 @@ void MixedNavigationFIle::PoprawStruktureSatelity(FileDatas* dane,QString SV)
             linia_txt.replace("D","e"); //zamiana D na e
             linia_txt.replace("E","e"); //zamiana E na e
             linia_txt.replace("e ","e"); //usuniecie spacji z "e -"
-            lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+            lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
             if(lista.count() >= 5){
-                lista = linia_txt.split(" ",QString::SkipEmptyParts); //split po spacjach
+                lista = linia_txt.split(" ",Qt::SkipEmptyParts); //split po spacjach
                 int CurrentHour = lista[4].toInt();
 
                 int E_h, E_m;
