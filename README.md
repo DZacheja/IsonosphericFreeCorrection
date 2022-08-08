@@ -22,3 +22,6 @@ Dokładna dokumentacja znajduje się w pracy magisterskiej.
 ### Wyniki pośrednie obliczeń
 ![WynikiPośrednie](https://github.com/DZacheja/IsonosphericFreeCorrection/blob/master/Images/Description/IndirectbueResults.png "Wyniki pośrednie")
 Dla każdej obliczonej epoki jest możliwośc sprawdzenia wszystkich pośrednich obliczeń w celu dokładnej analizy.
+<br><br>
+## Licencja
+[Apache License 2.0](https://github.com/DZacheja/IsonosphericFreeCorrection/blob/master/LICENSE)
